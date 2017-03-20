@@ -13,10 +13,10 @@ public class Figure {
 	private int field [][] = new int [8][8];
 	private int allowedMoving [][] = new int [8][8] ;
 	
-	/*	0 = none 			none
+	/*	0 = none 		none
 		1 = Pawn(Bauer)		P
 		2 = Bishop(Läufer)	B
-		3 = Knight(Springer)Kn
+		3 = Knight(Springer)	Kn
 		4 = Rook(Turm)		R
 		5 = King(König)		K
 		6 = Queen(Königin)	Q
@@ -26,14 +26,14 @@ public class Figure {
 	private int foreignFigurePlayer = 2;
 	private int foreignFigureX = 3;
 	private int foreignFigureY = 3;
-	//End of attributes
+	//END of attributes
 	
 	//constructor for moving algorithm.
 	public Figure(){
 		//call moving algorithm.
 		calculateAllowedMovement();
 	}
-	//End of constructor.
+	//END of constructor.
 	
 	//Moving algorithm. Fills calculation into arrays. Searches for figures on board!
 	public void calculateAllowedMovement(){
@@ -71,7 +71,7 @@ public class Figure {
 		//Printing a spacer for separating arrays in console!
 		System.out.println();
 		System.out.println("Spacer");
-		//End of printing board array.
+		//END of printing board array.
 		
 		//What is the active figure?
 		
@@ -84,7 +84,7 @@ public class Figure {
 			logicR();
 		}
 		//TODO add logic for other figures as well!
-		//End of searching for active figure.
+		//END of searching for active figure.
 		
 		//Moving algorithm. Prints allowed movement.
 		for(int y=0;y<8;y++){
@@ -111,8 +111,8 @@ public class Figure {
 			//Print a line break for visualizing array as board in console!
 			System.out.println(" Stop");
 		}
-		//End of allowed movement printing.
-	}//End of moving algorithm.
+		//END of allowed movement printing.
+	}//END of moving algorithm.
 	
 	//Algorithms for figure movements.
 	//Calculation algorithm for movement of the Pawn figure.
@@ -243,7 +243,7 @@ public class Figure {
 	private void logicR(){
 		
 	}
-	//End of figure movement algorithms.
+	//END of figure movement algorithms.
 	
 	//Getter and Setter methods.
 	//TODO alter or remove unused, old or changed attributes!
@@ -342,6 +342,6 @@ public class Figure {
 	public void setForeignFigurePlayer(int foreignFigurePlayer) {
 		this.foreignFigurePlayer = foreignFigurePlayer;
 	}
-	//End of Getter and Setter methods
+	//END of Getter and Setter methods
 }
-//End of class
+//END of class
