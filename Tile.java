@@ -3,41 +3,41 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+//Class for tiles
 @SuppressWarnings("serial")
-public class Tile extends JPanel //implements MouseListener
-{
-//	final Container child=this;
+public class Tile extends JPanel {
+	//Attributes for tile class.
 	private JLabel tileFigureDisplay = new JLabel("none");
 	private Color tileColor = Color.decode("#CDAA7D");
 		//white = CDAA7D
 		//black = 8B7355
 	private String tileCurrentFigure = "none";
-	/*	0 = none 			none
+	/*	0 = none 		none
 		1 = Pawn(Bauer)		P
-		2 = Bishop(Läufer)	B
-		3 = Knight(Springer)Kn
+		2 = Bishop(LÃ¤ufer)	B
+		3 = Knight(Springer)	Kn
 		4 = Rook(Turm)		R
-		5 = King(König)		K
-		6 = Queen(Königin)	Q
+		5 = King(KÃ¶nig)		K
+		6 = Queen(KÃ¶nigin)	Q
 	 */
 	private int tileCurrentPlayer = 0;
-		/*	0 = none
-		 	1 = white
-		 	2 = black
-		 */
+	/*	0 = none
+	 	1 = white
+	 	2 = black
+	*/
 	private boolean tileCurrentlyOccupied = false;
 	private int posX = 0;
 	private int posY = 0;
 	private boolean selected = false;
+	//END of attributes.
 	
-	
+	//Constructors for tile class.
 	public Tile(int posY, int posX){
 		this.setSize(50, 50);
 		this.setBackground(this.getTileColor());
 		this.add(this.getTileFigureDisplay());
 		this.getTileFigureDisplay().setBackground(this.getTileColor());
 		this.getTileFigureDisplay().setForeground(Color.RED);
-		//this.addMouseListener(this);
 		this.setPosX(posX);
 		this.setPosY(posY);
 	}
@@ -49,7 +49,6 @@ public class Tile extends JPanel //implements MouseListener
 		this.add(this.getTileFigureDisplay());
 		this.getTileFigureDisplay().setBackground(tileColor);
 		this.getTileFigureDisplay().setForeground(Color.RED);
-		//this.addMouseListener(this);
 		this.setPosX(posX);
 		this.setPosY(posY);
 	}
@@ -73,18 +72,12 @@ public class Tile extends JPanel //implements MouseListener
 			this.getTileFigureDisplay().setForeground(Color.RED);
 		}
 		this.getTileFigureDisplay().setBackground(tileColor);
-		//this.addMouseListener(this);
 		this.setPosX(posX);
 		this.setPosY(posY);
 	}
-
+	//END of constructors.
 	
-	
-	
-	
-	
-	
-
+	//Getter and Setter methods.
 	public Color getTileColor() {
 		return tileColor;
 	}
@@ -126,70 +119,6 @@ public class Tile extends JPanel //implements MouseListener
 	public void setTileCurrentlyOccupied(boolean tileCurrentlyOccupied) {
 		this.tileCurrentlyOccupied = tileCurrentlyOccupied;
 	}
-
-	
-	
-	
-	
-	/* @Override
-	public void mouseClicked(MouseEvent me) {
-		// 
-		/*System.out.println("click");
-		System.out.println("Feld" + this.getPosX() + this.getPosY());
-		System.out.println(this.getTileCurrentPlayer());
-		System.out.println(this.getTileCurrentFigure());
-		System.out.println(this.isTileCurrentlyOccupied());
-		System.out.println(this.getPosX());
-		System.out.println(this.getPosY());
-		if(this.isSelected() == false){
-			System.out.println("picked up");
-			this.setSelected(true);
-		}
-		else{
-			System.out.println("dropped down");
-			this.setSelected(false);
-		}
-		//
-		this.redispatchToParent(me);
-		//System.out.println(me);
-		//System.out.println(getParent());
-		//System.out.println(this.getPosX());
-		
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent me) {
-		//System.out.println("entered");
-		this.setBackground(Color.GREEN);
-		this.repaint();
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent me) {
-		// 
-		//System.out.println("exited");
-		this.setBackground(getTileColor());
-	}
-
-	@Override
-	public void mousePressed(MouseEvent me) {
-		// 
-		//System.out.println("pressed");
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent me) {
-		// 
-		//System.out.println("released");
-	}
-	
-	private void redispatchToParent(MouseEvent me){
-		Component source = (Component) me.getSource();
-		MouseEvent parentEvent = SwingUtilities.convertMouseEvent(source,  me, source.getParent());
-		source.getParent().dispatchEvent(parentEvent);
-	}
-*/
 	public int getPosX() {
 		return posX;
 	}
@@ -221,4 +150,6 @@ public class Tile extends JPanel //implements MouseListener
 	public void setTileFigureDisplay(JLabel tileFigureDisplay) {
 		this.tileFigureDisplay = tileFigureDisplay;
 	}
+	//END of Getter and Setter methods.
 }
+//END of class.
