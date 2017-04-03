@@ -6,7 +6,7 @@ public class Figure {
 	// Attributes for calculating figure movement.
 	// TODO safe all foreign figures in an array.
 	private int activePlayer = 2;
-	private String activeFigure = "Kn";
+	private String activeFigure = "P";
 	private int activeFigureX = 5;
 	private int activeFigureY = 5;
 	private boolean alreadyMoved = false;
@@ -15,8 +15,8 @@ public class Figure {
 
 	/*
 	 * // F i g u r e s // 0 = none none // 1 = Pawn(Bauer) P // 2 =
-	 * Bishop(Läufer) B // 3 = Knight(Springer) Kn // 4 = Rook(Turm) R // 5 =
-	 * King(König) K // 6 = Queen(Königin) Q
+	 * Bishop(LÃ¤ufer) B // 3 = Knight(Springer) Kn // 4 = Rook(Turm) R // 5 =
+	 * King(KÃ¶nig) K // 6 = Queen(KÃ¶nigin) Q
 	 */ // END f i g u r e s
 	private String foreignFigure = "F";
 	private boolean foreignOccupied = true;
@@ -313,6 +313,7 @@ public class Figure {
 		else {
 		}
 	}
+
 	// Calculation algorithm for movement of the Rook figure.
 	private void logicR() {
 		// Find the current Position of the active Figure on the Board.
@@ -347,6 +348,7 @@ public class Figure {
 		}
 		// END of Rook.
 	}
+
 	// Calculation algorithm for movement of the Queen figure.
 	private void logicQ() {
 		// Find the current Position of the active Figure on the Board.
@@ -371,6 +373,7 @@ public class Figure {
 		diagonalMoving();
 		// END of Queen.
 	}
+
 	// Calculation algorithm for movement of the Bishop figure.
 	private void logicB() {
 		// Find the current Position of the active Figure on the Board.
@@ -394,6 +397,7 @@ public class Figure {
 		diagonalMoving();
 		// END of Queen.
 	}
+
 	// Calculation algorithm for movement of the Knight figure.
 	private void logicKn() {
 		// Find the current Position of the active Figure on the Board.
@@ -574,6 +578,7 @@ public class Figure {
 
 		// END Calculate movement of Knight.
 	}
+
 	// Calculation algorithm for movement of the King figure.
 	private void logicK() {
 	}
@@ -768,72 +773,95 @@ public class Figure {
 	public int getActivePlayer() {
 		return activePlayer;
 	}
+
 	public void setActivePlayer(int activePlayer) {
 		this.activePlayer = activePlayer;
 	}
+
 	public String getActiveFigure() {
 		return activeFigure;
 	}
+
 	public void setActiveFigure(String activeFigure) {
 		this.activeFigure = activeFigure;
 	}
+
 	public int getActiveFigureX() {
 		return activeFigureX;
 	}
+
 	public void setActiveFigureX(int activeFigureX) {
 		this.activeFigureX = activeFigureX;
 	}
+
 	public int getActiveFigureY() {
 		return activeFigureY;
 	}
+
 	public void setActiveFigureY(int activeFigureY) {
 		this.activeFigureY = activeFigureY;
 	}
+
 	public boolean isForeignOccupied() {
 		return foreignOccupied;
 	}
+
 	public void setForeignOccupied(boolean foreignOccupied) {
 		this.foreignOccupied = foreignOccupied;
 	}
+
 	public int getForeignFigureX() {
 		return foreignFigureX;
 	}
+
 	public void setForeignFigureX(int foreignFigureX) {
 		this.foreignFigureX = foreignFigureX;
 	}
+
 	public int getForeignFigureY() {
 		return foreignFigureY;
 	}
+
 	public void setForeignFigureY(int foreignFigureY) {
 		this.foreignFigureY = foreignFigureY;
 	}
+
 	public boolean isAlreadyMoved() {
 		return alreadyMoved;
 	}
+
 	public void setAlreadyMoved(boolean alreadyMoved) {
 		this.alreadyMoved = alreadyMoved;
 	}
+
 	public int[][] getAllowedMoving() {
 		return field;
 	}
+
 	public void setAllowedMoving(int allowedMoving[][]) {
 		this.field = allowedMoving;
 	}
+
 	public String getForeignFigure() {
 		return foreignFigure;
 	}
+
 	public void setForeignFigure(String foreignFigure) {
 		this.foreignFigure = foreignFigure;
 	}
+
 	public int[][] getField() {
 		return field;
 	}
+
 	public void setField(int[][] field) {
 		this.field = field;
 	}
+
 	public int getForeignFigurePlayer() {
 		return foreignFigurePlayer;
 	}
+
 	public void setForeignFigurePlayer(int foreignFigurePlayer) {
 		this.foreignFigurePlayer = foreignFigurePlayer;
 	}
