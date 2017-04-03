@@ -15,14 +15,9 @@ public class Pawn {
 
 	/*
 	 * // F i g u r e s // 0 = none none // 1 = Pawn(Bauer) P // 2 =
-	 * Bishop(Läufer) B // 3 = Knight(Springer) Kn // 4 = Rook(Turm) R // 5 =
-	 * King(König) K // 6 = Queen(Königin) Q
+	 * Bishop(LÃ¤ufer) B // 3 = Knight(Springer) Kn // 4 = Rook(Turm) R // 5 =
+	 * King(KÃ¶nig) K // 6 = Queen(KÃ¶nigin) Q
 	 */ // END f i g u r e s
-	private String foreignFigure = "F";
-	private boolean foreignOccupied = true;
-	private int foreignFigurePlayer = 2;
-	private int foreignFigureX = 7;
-	private int foreignFigureY = 3;
 	// END of attributes
 
 	// constructor for moving algorithm.
@@ -31,7 +26,7 @@ public class Pawn {
 		setFigureY(figureY);
 		setPlayer(player);
 		// DONT// call moving algorithm.
-		// calculateAllowedMovement();
+		calculateAllowedMovement();
 	}
 	// END of constructor.
 
@@ -40,13 +35,16 @@ public class Pawn {
 	public void calculateAllowedMovement() {
 		for (int y = 0; y < 8; y++) {
 			for (int x = 0; x < 8; x++) {
-				// Found active figure on the board! Marking it with 1!
+				// Found active figure on the board! Marking it with 4!
 				if (getFigureX() == x && getFigureY() == y) {
+					field[y][x] = 4;
+				}
+				// Found foreign figure(White) on the board! Marking it with 1!
+				else if (getForeignFigurePos(x, y) == 1) {
 					field[y][x] = 1;
 				}
-				// Found foreign figure on the board! Marking it with 2!
-				// TODO add the function to find more than one figure.
-				else if (getForeignFigureX() == x && getForeignFigureY() == y) {
+				// Found foreign figure(Black) on the board! Marking it with 2!
+				else if (getForeignFigurePos(x, y) == 2) {
 					field[y][x] = 2;
 				}
 				// Found empty field on the board! Marking it with 0!
@@ -60,8 +58,7 @@ public class Pawn {
 					TimeUnit.MILLISECONDS.sleep(5);
 				} catch (InterruptedException e) {
 					// Break can't be executed!
-					System.err.println(
-							"Breaktimer in class Figure at 52 doesn't work! Printing StackTrace!");
+					System.err.println("Breaktimer in class Figure at 52 doesn't work! Printing StackTrace!");
 					e.printStackTrace();
 				}
 				// Printing current field of the board array.
@@ -99,8 +96,7 @@ public class Pawn {
 					TimeUnit.MILLISECONDS.sleep(5);
 				} catch (InterruptedException e) {
 					// Can't execute waiting timer!
-					System.err.println(
-							"Breaktimer in class Figure at 92 doesn't work! Printing StackTrace!");
+					System.err.println("Breaktimer in class Figure at 92 doesn't work! Printing StackTrace!");
 					e.printStackTrace();
 				}
 			}
@@ -118,9 +114,9 @@ public class Pawn {
 		// Find the current Position of the active Figure on the Board.
 		for (int y = 0; y < 8; y++) {
 			for (int x = 0; x < 8; x++) {
-				// Found the active Figure! Marking this field with 1 in Array!
+				// Found the active Figure! Marking this field with 4 in Array!
 				if (getFigureX() == x && getFigureY() == y) {
-					allowedMoving[y][x] = 1;
+					allowedMoving[y][x] = 4;
 				}
 				// Still not found active Figure! Marking this field with 0 in
 				// Array!
@@ -141,97 +137,96 @@ public class Pawn {
 			// White Player is active player! This means Pawn moves towards
 			// Black!
 			if (getPlayer() == 1) {
-				// Nothing is in the way! Can move two steps!
-				if (getFigureY() < (getForeignFigureY() - 2)
-						&& getFigureY() > (getForeignFigureY() - 4)
-						&& getFigureX() == getForeignFigureX()
-						|| getFigureY() < (getForeignFigureY() - 4)
-								&& getFigureX() == getForeignFigureX()) {
-					allowedMoving[getFigureY() + 1][getFigureX()] = 3;
-					allowedMoving[getFigureY() + 2][getFigureX()] = 3;
-				}
-				// Something is in the way! Can only move one step!
-				else if (getFigureY() < (getForeignFigureY() - 1)
-						&& getFigureY() > (getForeignFigureY() - 3)
-						&& getFigureX() == getForeignFigureX()
-						|| getFigureY() < (getForeignFigureY() - 3)
-								&& getFigureX() == getForeignFigureX()) {
-					allowedMoving[getFigureY() + 1][getFigureX()] = 3;
-				}
-				// Nothing is in the way! Can move two steps!
-				else if (getFigureX() != getForeignFigureX()) {
-					allowedMoving[getFigureY() + 1][getFigureX()] = 3;
-					allowedMoving[getFigureY() + 2][getFigureX()] = 3;
-				}
-				// Something is in the way! Can't move at all!
-				else {
+				for (int i = getFigureY(); i <= getFigureY() + 2; i++) {
+					if (getField()[i][getFigureX()] == 4) {
+						allowedMoving[i][getFigureX()] = 4;
+					}
+					// Found White Figure!
+					else if (getField()[i][getFigureX()] == 1) {
+						allowedMoving[i][getFigureX()] = 1;
+						i = i + 3;
+					}
+					// Found Black Figure!
+					else if (getField()[i][getFigureX()] == 2) {
+						allowedMoving[i][getFigureX()] = 2;
+						i = i + 3;
+					}
+					// Found no Figure!
+					else {
+						allowedMoving[i][getFigureX()] = 3;
+					}
 				}
 			}
-			// Black player is active player! This means Pawn moves towards
+			// Black Player is active player! This means Pawn moves towards
 			// White!
 			else {
-				// Nothing is in the way! Can move two steps!
-				if (getFigureY() > (getForeignFigureY() + 2)
-						&& getFigureY() < (getForeignFigureY() + 4)
-						&& getFigureX() == getForeignFigureX()
-						|| getFigureY() > (getForeignFigureY() + 4)
-								&& getFigureX() == getForeignFigureX()) {
-					allowedMoving[getFigureY() - 1][getFigureX()] = 3;
-					allowedMoving[getFigureY() - 2][getFigureX()] = 3;
-				}
-				// Something is in the way! Can only move one step!
-				else if (getFigureY() > (getForeignFigureY() + 1)
-						&& getFigureY() < (getForeignFigureY() + 3)
-						&& getFigureX() == getForeignFigureX()
-						|| getFigureY() > (getForeignFigureY() + 3)
-								&& getFigureX() == getForeignFigureX()) {
-					allowedMoving[getFigureY() - 1][getFigureX()] = 3;
-				}
-				// Nothing is in the way! Can move two steps!
-				else if (getFigureX() != getForeignFigureX()) {
-					allowedMoving[getFigureY() - 1][getFigureX()] = 3;
-					allowedMoving[getFigureY() - 2][getFigureX()] = 3;
-				}
-				// Something is in the way! Can't move at all!
-				else {
+				for (int i = getFigureY(); i >= getFigureY() - 2; i--) {
+					if (getField()[i][getFigureX()] == 4) {
+						allowedMoving[i][getFigureX()] = 4;
+					}
+					// Found White Figure!
+					else if (getField()[i][getFigureX()] == 1) {
+						allowedMoving[i][getFigureX()] = 1;
+						i = i - 3;
+					}
+					// Found Black Figure!
+					else if (getField()[i][getFigureX()] == 2) {
+						allowedMoving[i][getFigureX()] = 2;
+						i = i - 3;
+					}
+					// Found no Figure!
+					else {
+						allowedMoving[i][getFigureX()] = 3;
+					}
 				}
 			}
 		}
-		// the Figure was moved!
+		// Pawn was moved!
 		else {
-			// White player is active player! This means Pawn moves towards
+			// White Player is active player! This means Pawn moves towards
 			// Black!
 			if (getPlayer() == 1) {
-
-				if (getForeignFigureY() <= getFigureY() + 1) {
-					// Nothing is in the way! Can move one step!
-					if (getFigureX() != getForeignFigureX()) {
-						allowedMoving[getFigureY() + 1][getFigureX()] = 3;
+				for (int i = getFigureY(); i <= getFigureY() + 1; i++) {
+					if (getField()[i][getFigureX()] == 4) {
+						allowedMoving[i][getFigureX()] = 4;
 					}
-					// Something is in the way! Can't move at all!
+					// Found White Figure!
+					else if (getField()[i][getFigureX()] == 1) {
+						allowedMoving[i][getFigureX()] = 1;
+						i = i + 3;
+					}
+					// Found Black Figure!
+					else if (getField()[i][getFigureX()] == 2) {
+						allowedMoving[i][getFigureX()] = 2;
+						i = i + 3;
+					}
+					// Found no Figure!
 					else {
+						allowedMoving[i][getFigureX()] = 3;
 					}
-				}
-				// Nothing is in the way! Can move one step!
-				else {
-					allowedMoving[getFigureY() + 1][getFigureX()] = 3;
 				}
 			}
-			// Black player is active player! This means Pawn moves towards
+			// Black Player is active player! This means Pawn moves towards
 			// White!
 			else {
-				if (getForeignFigureY() >= getFigureY() - 1) {
-					// Nothing is in the way! Can move one step!
-					if (getFigureX() != getForeignFigureX()) {
-						allowedMoving[getFigureY() - 1][getFigureX()] = 3;
+				for (int i = getFigureY(); i >= getFigureY() - 1; i--) {
+					if (getField()[i][getFigureX()] == 4) {
+						allowedMoving[i][getFigureX()] = 4;
 					}
-					// Something is in the way! Can't move at all!
+					// Found White Figure!
+					else if (getField()[i][getFigureX()] == 1) {
+						allowedMoving[i][getFigureX()] = 1;
+						i = i - 3;
+					}
+					// Found Black Figure!
+					else if (getField()[i][getFigureX()] == 2) {
+						allowedMoving[i][getFigureX()] = 2;
+						i = i - 3;
+					}
+					// Found no Figure!
 					else {
+						allowedMoving[i][getFigureX()] = 3;
 					}
-				}
-				// Nothing is in the way! Can move one step!
-				else {
-					allowedMoving[getFigureY() - 1][getFigureX()] = 3;
 				}
 			}
 		}
@@ -243,40 +238,36 @@ public class Pawn {
 
 		// White player is active player! Foreign figure is Black and is under
 		// and right of active figure!
-		if (getPlayer() == 1 && getFigureY() + 1 == getForeignFigureY()
-				&& getFigureX() + 1 == getForeignFigureX()
-				&& getForeignFigurePlayer() != getPlayer()) {
-			allowedMoving[getFigureY() + 1][getFigureX() + 1] = 3;
+		if (getPlayer() == 1 && getField()[getFigureY() + 1][getFigureX() - 1] == 2) {
+			allowedMoving[getFigureY() + 1][getFigureX() - 1] = 3;
 		}
 		// White player is active player! Foreign figure is Black and is under
 		// and left of active figure!
-		else if (getPlayer() == 1 && getFigureY() + 1 == getForeignFigureY()
-				&& getFigureX() - 1 == getForeignFigureX()
-				&& getForeignFigurePlayer() != getPlayer()) {
-			allowedMoving[getFigureY() + 1][getFigureX() - 1] = 3;
+		if (getPlayer() == 1 && getField()[getFigureY() + 1][getFigureX() + 1] == 2) {
+			allowedMoving[getFigureY() + 1][getFigureX() + 1] = 3;
 		}
 		// Black player is active player! Foreign figure is White and is above
 		// and right of active figure!
-		else if (getPlayer() == 2 && getFigureY() - 1 == getForeignFigureY()
-				&& getFigureX() + 1 == getForeignFigureX()
-				&& getForeignFigurePlayer() != getPlayer()) {
+		if (getPlayer() == 2 && getField()[getFigureY() - 1][getFigureX() + 1] == 1) {
 			allowedMoving[getFigureY() - 1][getFigureX() + 1] = 3;
 		}
 		// Black player is active player! Foreign figure is White and is above
 		// and left of active figure!
-		else if (getPlayer() == 2 && getFigureY() - 1 == getForeignFigureY()
-				&& getFigureX() - 1 == getForeignFigureX()
-				&& getForeignFigurePlayer() != getPlayer()) {
+		if (getPlayer() == 2 && getField()[getFigureY() - 1][getFigureX() - 1] == 1) {
 			allowedMoving[getFigureY() - 1][getFigureX() - 1] = 3;
 		}
 		// Nothing to kick!
 		else {
 		}
 	}
-	// END of figure movement algorithms.
+	// END of figure movement algorithm.
 
 	// Getter and Setter methods.
 	// TODO alter or remove unused, old or changed attributes!
+	public int getForeignFigurePos(int x, int y) {
+		return Main.start.getBoard()[x][y];
+	}
+
 	public int getPlayer() {
 		return player;
 	}
@@ -309,30 +300,6 @@ public class Pawn {
 		this.figureY = figureY;
 	}
 
-	public boolean isForeignOccupied() {
-		return foreignOccupied;
-	}
-
-	public void setForeignOccupied(boolean foreignOccupied) {
-		this.foreignOccupied = foreignOccupied;
-	}
-
-	public int getForeignFigureX() {
-		return foreignFigureX;
-	}
-
-	public void setForeignFigureX(int foreignFigureX) {
-		this.foreignFigureX = foreignFigureX;
-	}
-
-	public int getForeignFigureY() {
-		return foreignFigureY;
-	}
-
-	public void setForeignFigureY(int foreignFigureY) {
-		this.foreignFigureY = foreignFigureY;
-	}
-
 	public boolean isAlreadyMoved() {
 		return alreadyMoved;
 	}
@@ -349,28 +316,12 @@ public class Pawn {
 		this.field = allowedMoving;
 	}
 
-	public String getForeignFigure() {
-		return foreignFigure;
-	}
-
-	public void setForeignFigure(String foreignFigure) {
-		this.foreignFigure = foreignFigure;
-	}
-
 	public int[][] getField() {
 		return field;
 	}
 
 	public void setField(int[][] field) {
 		this.field = field;
-	}
-
-	public int getForeignFigurePlayer() {
-		return foreignFigurePlayer;
-	}
-
-	public void setForeignFigurePlayer(int foreignFigurePlayer) {
-		this.foreignFigurePlayer = foreignFigurePlayer;
 	}
 	// END of Getter and Setter methods
 }
