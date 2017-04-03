@@ -2,6 +2,8 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.concurrent.TimeUnit;
+
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
@@ -22,88 +24,92 @@ public class Board extends JFrame {
 	private String chosenFigure = "none";
 	/*
 	 * // F i g u r e s // 0 = none none // 1 = Pawn(Bauer) P // 2 =
-	 * Bishop(Läufer) B // 3 = Knight(Springer) Kn // 4 = Rook(Turm) R // 5 =
-	 * King(König) K // 6 = Queen(Königin) Q
+	 * Bishop(LÃ¤ufer) B // 3 = Knight(Springer) Kn // 4 = Rook(Turm) R // 5 =
+	 * King(KÃ¶nig) K // 6 = Queen(KÃ¶nigin) Q
 	 */ // END f i g u r e s
 	private boolean tileCurrentlyOccupied = false;
 	private int tileCurrentPlayer = 0;
 	private int posX = 0;
 	private int posY = 0;
+	private static int board[][] = new int[8][8];
+	private static int ax = 0;
+	private static int ay = 0;
+	private static int ap = 0;
 	// END of attributes.
 
 	// Creating tile objects form class Tile. Also adding attributes to tiles.
 	// Row 1(Top).
-	private Tile t11 = new Tile(1, 1, Color.decode("#CDAA7D"), 1, "T", true);
-	private Tile t12 = new Tile(1, 2, Color.decode("#8B7355"), 1, "S", true);
-	private Tile t13 = new Tile(1, 3, Color.decode("#CDAA7D"), 1, "L", true);
-	private Tile t14 = new Tile(1, 4, Color.decode("#8B7355"), 1, "Q", true);
-	private Tile t15 = new Tile(1, 5, Color.decode("#CDAA7D"), 1, "K", true);
-	private Tile t16 = new Tile(1, 6, Color.decode("#8B7355"), 1, "L", true);
-	private Tile t17 = new Tile(1, 7, Color.decode("#CDAA7D"), 1, "S", true);
-	private Tile t18 = new Tile(1, 8, Color.decode("#8B7355"), 1, "T", true);
+	private Tile t11 = new Tile(0, 0, Color.decode("#CDAA7D"), 1, "T", true);
+	private Tile t12 = new Tile(0, 1, Color.decode("#8B7355"), 1, "S", true);
+	private Tile t13 = new Tile(0, 2, Color.decode("#CDAA7D"), 1, "L", true);
+	private Tile t14 = new Tile(0, 3, Color.decode("#8B7355"), 1, "Q", true);
+	private Tile t15 = new Tile(0, 4, Color.decode("#CDAA7D"), 1, "K", true);
+	private Tile t16 = new Tile(0, 5, Color.decode("#8B7355"), 1, "L", true);
+	private Tile t17 = new Tile(0, 6, Color.decode("#CDAA7D"), 1, "S", true);
+	private Tile t18 = new Tile(0, 7, Color.decode("#8B7355"), 1, "T", true);
 	// Row 2.
-	private Tile t21 = new Tile(2, 1, Color.decode("#8B7355"), 1, "B", true);
-	private Tile t22 = new Tile(2, 2, Color.decode("#CDAA7D"), 1, "B", true);
-	private Tile t23 = new Tile(2, 3, Color.decode("#8B7355"), 1, "B", true);
-	private Tile t24 = new Tile(2, 4, Color.decode("#CDAA7D"), 1, "B", true);
-	private Tile t25 = new Tile(2, 5, Color.decode("#8B7355"), 1, "B", true);
-	private Tile t26 = new Tile(2, 6, Color.decode("#CDAA7D"), 1, "B", true);
-	private Tile t27 = new Tile(2, 7, Color.decode("#8B7355"), 1, "B", true);
-	private Tile t28 = new Tile(2, 8, Color.decode("#CDAA7D"), 1, "B", true);
+	private Tile t21 = new Tile(1, 0, Color.decode("#8B7355"), 1, "B", true);
+	private Tile t22 = new Tile(1, 1, Color.decode("#CDAA7D"), 1, "B", true);
+	private Tile t23 = new Tile(1, 2, Color.decode("#8B7355"), 1, "B", true);
+	private Tile t24 = new Tile(1, 3, Color.decode("#CDAA7D"), 1, "B", true);
+	private Tile t25 = new Tile(1, 4, Color.decode("#8B7355"), 1, "B", true);
+	private Tile t26 = new Tile(1, 5, Color.decode("#CDAA7D"), 1, "B", true);
+	private Tile t27 = new Tile(1, 6, Color.decode("#8B7355"), 1, "B", true);
+	private Tile t28 = new Tile(1, 7, Color.decode("#CDAA7D"), 1, "B", true);
 	// Row 3.
-	private Tile t31 = new Tile(3, 1, Color.decode("#CDAA7D"));
-	private Tile t32 = new Tile(3, 2, Color.decode("#8B7355"));
-	private Tile t33 = new Tile(3, 3, Color.decode("#CDAA7D"));
-	private Tile t34 = new Tile(3, 4, Color.decode("#8B7355"));
-	private Tile t35 = new Tile(3, 5, Color.decode("#CDAA7D"));
-	private Tile t36 = new Tile(3, 6, Color.decode("#8B7355"));
-	private Tile t37 = new Tile(3, 7, Color.decode("#CDAA7D"));
-	private Tile t38 = new Tile(3, 8, Color.decode("#8B7355"));
+	private Tile t31 = new Tile(2, 0, Color.decode("#CDAA7D"));
+	private Tile t32 = new Tile(2, 1, Color.decode("#8B7355"));
+	private Tile t33 = new Tile(2, 2, Color.decode("#CDAA7D"));
+	private Tile t34 = new Tile(2, 3, Color.decode("#8B7355"));
+	private Tile t35 = new Tile(2, 4, Color.decode("#CDAA7D"));
+	private Tile t36 = new Tile(2, 5, Color.decode("#8B7355"));
+	private Tile t37 = new Tile(2, 6, Color.decode("#CDAA7D"));
+	private Tile t38 = new Tile(2, 7, Color.decode("#8B7355"));
 	// Row 4.
-	private Tile t41 = new Tile(4, 1, Color.decode("#8B7355"));
-	private Tile t42 = new Tile(4, 2, Color.decode("#CDAA7D"));
-	private Tile t43 = new Tile(4, 3, Color.decode("#8B7355"));
-	private Tile t44 = new Tile(4, 4, Color.decode("#CDAA7D"));
-	private Tile t45 = new Tile(4, 5, Color.decode("#8B7355"));
-	private Tile t46 = new Tile(4, 6, Color.decode("#CDAA7D"));
-	private Tile t47 = new Tile(4, 7, Color.decode("#8B7355"));
-	private Tile t48 = new Tile(4, 8, Color.decode("#CDAA7D"));
+	private Tile t41 = new Tile(3, 0, Color.decode("#8B7355"));
+	private Tile t42 = new Tile(3, 1, Color.decode("#CDAA7D"));
+	private Tile t43 = new Tile(3, 2, Color.decode("#8B7355"));
+	private Tile t44 = new Tile(3, 3, Color.decode("#CDAA7D"));
+	private Tile t45 = new Tile(3, 4, Color.decode("#8B7355"));
+	private Tile t46 = new Tile(3, 5, Color.decode("#CDAA7D"));
+	private Tile t47 = new Tile(3, 6, Color.decode("#8B7355"));
+	private Tile t48 = new Tile(3, 7, Color.decode("#CDAA7D"));
 	// Row 5.
-	private Tile t51 = new Tile(5, 1, Color.decode("#CDAA7D"));
-	private Tile t52 = new Tile(5, 2, Color.decode("#8B7355"));
-	private Tile t53 = new Tile(5, 3, Color.decode("#CDAA7D"));
-	private Tile t54 = new Tile(5, 4, Color.decode("#8B7355"));
-	private Tile t55 = new Tile(5, 5, Color.decode("#CDAA7D"));
-	private Tile t56 = new Tile(5, 6, Color.decode("#8B7355"));
-	private Tile t57 = new Tile(5, 7, Color.decode("#CDAA7D"));
-	private Tile t58 = new Tile(5, 8, Color.decode("#8B7355"));
+	private Tile t51 = new Tile(4, 0, Color.decode("#CDAA7D"));
+	private Tile t52 = new Tile(4, 1, Color.decode("#8B7355"));
+	private Tile t53 = new Tile(4, 2, Color.decode("#CDAA7D"));
+	private Tile t54 = new Tile(4, 3, Color.decode("#8B7355"));
+	private Tile t55 = new Tile(4, 4, Color.decode("#CDAA7D"));
+	private Tile t56 = new Tile(4, 5, Color.decode("#8B7355"));
+	private Tile t57 = new Tile(4, 6, Color.decode("#CDAA7D"));
+	private Tile t58 = new Tile(4, 7, Color.decode("#8B7355"));
 	// Row 6.
-	private Tile t61 = new Tile(6, 1, Color.decode("#8B7355"));
-	private Tile t62 = new Tile(6, 2, Color.decode("#CDAA7D"));
-	private Tile t63 = new Tile(6, 3, Color.decode("#8B7355"));
-	private Tile t64 = new Tile(6, 4, Color.decode("#CDAA7D"));
-	private Tile t65 = new Tile(6, 5, Color.decode("#8B7355"));
-	private Tile t66 = new Tile(6, 6, Color.decode("#CDAA7D"));
-	private Tile t67 = new Tile(6, 7, Color.decode("#8B7355"));
-	private Tile t68 = new Tile(6, 8, Color.decode("#CDAA7D"));
+	private Tile t61 = new Tile(5, 0, Color.decode("#8B7355"));
+	private Tile t62 = new Tile(5, 1, Color.decode("#CDAA7D"));
+	private Tile t63 = new Tile(5, 2, Color.decode("#8B7355"));
+	private Tile t64 = new Tile(5, 3, Color.decode("#CDAA7D"));
+	private Tile t65 = new Tile(5, 4, Color.decode("#8B7355"));
+	private Tile t66 = new Tile(5, 5, Color.decode("#CDAA7D"));
+	private Tile t67 = new Tile(5, 6, Color.decode("#8B7355"));
+	private Tile t68 = new Tile(5, 7, Color.decode("#CDAA7D"));
 	// Row 7.
-	private Tile t71 = new Tile(7, 1, Color.decode("#CDAA7D"), 2, "B", true);
-	private Tile t72 = new Tile(7, 2, Color.decode("#8B7355"), 2, "B", true);
-	private Tile t73 = new Tile(7, 3, Color.decode("#CDAA7D"), 2, "B", true);
-	private Tile t74 = new Tile(7, 4, Color.decode("#8B7355"), 2, "B", true);
-	private Tile t75 = new Tile(7, 5, Color.decode("#CDAA7D"), 2, "B", true);
-	private Tile t76 = new Tile(7, 6, Color.decode("#8B7355"), 2, "B", true);
-	private Tile t77 = new Tile(7, 7, Color.decode("#CDAA7D"), 2, "B", true);
-	private Tile t78 = new Tile(7, 8, Color.decode("#8B7355"), 2, "B", true);
+	private Tile t71 = new Tile(6, 0, Color.decode("#CDAA7D"), 2, "B", true);
+	private Tile t72 = new Tile(6, 1, Color.decode("#8B7355"), 2, "B", true);
+	private Tile t73 = new Tile(6, 2, Color.decode("#CDAA7D"), 2, "B", true);
+	private Tile t74 = new Tile(6, 3, Color.decode("#8B7355"), 2, "B", true);
+	private Tile t75 = new Tile(6, 4, Color.decode("#CDAA7D"), 2, "B", true);
+	private Tile t76 = new Tile(6, 5, Color.decode("#8B7355"), 2, "B", true);
+	private Tile t77 = new Tile(6, 6, Color.decode("#CDAA7D"), 2, "B", true);
+	private Tile t78 = new Tile(6, 7, Color.decode("#8B7355"), 2, "B", true);
 	// Row 8(bottom).
-	private Tile t81 = new Tile(8, 1, Color.decode("#8B7355"), 2, "T", true);
-	private Tile t82 = new Tile(8, 2, Color.decode("#CDAA7D"), 2, "S", true);
-	private Tile t83 = new Tile(8, 3, Color.decode("#8B7355"), 2, "L", true);
-	private Tile t84 = new Tile(8, 4, Color.decode("#CDAA7D"), 2, "Q", true);
-	private Tile t85 = new Tile(8, 5, Color.decode("#8B7355"), 2, "K", true);
-	private Tile t86 = new Tile(8, 6, Color.decode("#CDAA7D"), 2, "L", true);
-	private Tile t87 = new Tile(8, 7, Color.decode("#8B7355"), 2, "S", true);
-	private Tile t88 = new Tile(8, 8, Color.decode("#CDAA7D"), 2, "T", true);
+	private Tile t81 = new Tile(7, 0, Color.decode("#8B7355"), 2, "T", true);
+	private Tile t82 = new Tile(7, 1, Color.decode("#CDAA7D"), 2, "S", true);
+	private Tile t83 = new Tile(7, 2, Color.decode("#8B7355"), 2, "L", true);
+	private Tile t84 = new Tile(7, 3, Color.decode("#CDAA7D"), 2, "Q", true);
+	private Tile t85 = new Tile(7, 4, Color.decode("#8B7355"), 2, "K", true);
+	private Tile t86 = new Tile(7, 5, Color.decode("#CDAA7D"), 2, "L", true);
+	private Tile t87 = new Tile(7, 6, Color.decode("#8B7355"), 2, "S", true);
+	private Tile t88 = new Tile(7, 7, Color.decode("#CDAA7D"), 2, "T", true);
 	// END of tile object creation.
 
 	// Constructor for game window
@@ -115,15 +121,27 @@ public class Board extends JFrame {
 		this.setLayout(gridLayoutManager);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
+		// Set board array 0
+		setBoardNull();
+		// END set board array 0
+
 		// add Rows to Board. Add MouseListener to tiles.
 		this.add(t11).addMouseListener(ma);
+		Board.board[0][0]=1;
 		this.add(t12).addMouseListener(ma);
+		Board.board[1][0]=1;
 		this.add(t13).addMouseListener(ma);
+		Board.board[2][0]=1;
 		this.add(t14).addMouseListener(ma);
+		Board.board[3][0]=1;
 		this.add(t15).addMouseListener(ma);
+		Board.board[4][0]=1;
 		this.add(t16).addMouseListener(ma);
+		Board.board[5][0]=1;
 		this.add(t17).addMouseListener(ma);
+		Board.board[6][0]=1;
 		this.add(t18).addMouseListener(ma);
+		Board.board[7][0]=1;
 		this.t11.addMouseMotionListener(ma);
 		this.t12.addMouseMotionListener(ma);
 		this.t13.addMouseMotionListener(ma);
@@ -134,13 +152,21 @@ public class Board extends JFrame {
 		this.t18.addMouseMotionListener(ma);
 
 		this.add(t21).addMouseListener(ma);
+		Board.board[0][1]=1;
 		this.add(t22).addMouseListener(ma);
+		Board.board[1][1]=1;
 		this.add(t23).addMouseListener(ma);
+		Board.board[2][1]=1;
 		this.add(t24).addMouseListener(ma);
+		Board.board[3][1]=1;
 		this.add(t25).addMouseListener(ma);
+		Board.board[4][1]=1;
 		this.add(t26).addMouseListener(ma);
+		Board.board[5][1]=1;
 		this.add(t27).addMouseListener(ma);
+		Board.board[6][1]=1;
 		this.add(t28).addMouseListener(ma);
+		Board.board[7][1]=1;
 		this.t21.addMouseMotionListener(ma);
 		this.t22.addMouseMotionListener(ma);
 		this.t23.addMouseMotionListener(ma);
@@ -219,13 +245,21 @@ public class Board extends JFrame {
 		this.t68.addMouseMotionListener(ma);
 
 		this.add(t71).addMouseListener(ma);
+		Board.board[0][6]=2;
 		this.add(t72).addMouseListener(ma);
+		Board.board[1][6]=2;
 		this.add(t73).addMouseListener(ma);
+		Board.board[2][6]=2;
 		this.add(t74).addMouseListener(ma);
+		Board.board[3][6]=2;
 		this.add(t75).addMouseListener(ma);
+		Board.board[4][6]=2;
 		this.add(t76).addMouseListener(ma);
+		Board.board[5][6]=2;
 		this.add(t77).addMouseListener(ma);
+		Board.board[6][6]=2;
 		this.add(t78).addMouseListener(ma);
+		Board.board[7][6]=2;
 		this.t71.addMouseMotionListener(ma);
 		this.t72.addMouseMotionListener(ma);
 		this.t73.addMouseMotionListener(ma);
@@ -236,13 +270,21 @@ public class Board extends JFrame {
 		this.t78.addMouseMotionListener(ma);
 
 		this.add(t81).addMouseListener(ma);
+		Board.board[0][7]=2;
 		this.add(t82).addMouseListener(ma);
+		Board.board[1][7]=2;
 		this.add(t83).addMouseListener(ma);
+		Board.board[2][7]=2;
 		this.add(t84).addMouseListener(ma);
+		Board.board[3][7]=2;
 		this.add(t85).addMouseListener(ma);
+		Board.board[4][7]=2;
 		this.add(t86).addMouseListener(ma);
+		Board.board[5][7]=2;
 		this.add(t87).addMouseListener(ma);
+		Board.board[6][7]=2;
 		this.add(t88).addMouseListener(ma);
+		Board.board[7][7]=2;
 		this.t81.addMouseMotionListener(ma);
 		this.t82.addMouseMotionListener(ma);
 		this.t83.addMouseMotionListener(ma);
@@ -252,6 +294,8 @@ public class Board extends JFrame {
 		this.t87.addMouseMotionListener(ma);
 		this.t88.addMouseMotionListener(ma);
 		// END of adding tiles.
+		
+		drawBoard();
 	}
 	// END of constructor.
 
@@ -337,9 +381,13 @@ public class Board extends JFrame {
 							setChosenFigure(((Tile) mouseEvent.getSource())
 									.getTileCurrentFigure());
 							// Getting X from clicked figure.
-							setPosX(((Tile) mouseEvent.getSource()).getPosX());
+							//setPosX(((Tile) mouseEvent.getSource()).getPosX());
 							// Getting Y from clicked figure.
-							setPosY(((Tile) mouseEvent.getSource()).getPosY());
+							//setPosY(((Tile) mouseEvent.getSource()).getPosY());
+							ax = (((Tile) mouseEvent.getSource()).getPosX());
+							ay = (((Tile) mouseEvent.getSource()).getPosY());
+							ap = ((Tile) mouseEvent.getSource()).getTileCurrentPlayer();
+							Board.board[ax][ay]=0;
 							// Changing state of pickedUp attribute to be able
 							// to move the figure on the next click!
 							setPickedUp(true);
@@ -385,6 +433,8 @@ public class Board extends JFrame {
 					// Change state pickedUp to false. Now another figure can be
 					// picked up!
 					setPickedUp(false);
+					// update Array
+					Board.board[((Tile) mouseEvent.getSource()).getPosX()][((Tile) mouseEvent.getSource()).getPosY()]=ap;
 					// Change class own attribute to false!
 					setTileCurrentlyOccupied(false);
 					// Change class own attribute to 0!
@@ -419,6 +469,7 @@ public class Board extends JFrame {
 				System.err.println("STOP IT");
 			}
 			// END of intercept.
+			drawBoard();
 		}
 		// END of mouseClicked method.
 
@@ -498,54 +549,98 @@ public class Board extends JFrame {
 	};
 	// END of mouseAdapter.
 
+	// Board filler
+	private void setBoardNull() {
+		for (int y = 0; y < 8; y++) {
+			for (int x = 0; x < 8; x++) {
+				board[x][y]=0;
+			}
+		}
+	}
+	// END Board filler
+	
+	//draw board
+	private void drawBoard(){	
+		for (int y = 0; y < 8; y++) {
+			for (int x = 0; x < 8; x++) {
+				System.out.print(getBoard()[x][y] + " ");
+			}
+			System.out.println();
+		}
+	}
+	//END draw board
+	
 	// Getter and Setter methods.
 	public int getCurrentActivePlayer() {
 		return currentActivePlayer;
 	}
+
 	public void setCurrentActivePlayer(int currentActivePlayer) {
 		this.currentActivePlayer = currentActivePlayer;
 	}
+
 	public boolean isListenerInterrupted() {
 		return ListenerInterrupted;
 	}
+
 	public void setListenerInterrupted(boolean listenerInterrupted) {
 		ListenerInterrupted = listenerInterrupted;
 	}
+
 	public boolean isPickedUp() {
 		return pickedUp;
 	}
+
 	public void setPickedUp(boolean pickedUp) {
 		this.pickedUp = pickedUp;
 	}
+
 	public String getChosenFigure() {
 		return chosenFigure;
 	}
+
 	public void setChosenFigure(String chosenFigure) {
 		this.chosenFigure = chosenFigure;
 	}
+
 	public boolean isTileCurrentlyOccupied() {
 		return tileCurrentlyOccupied;
 	}
+
 	public void setTileCurrentlyOccupied(boolean tileCurrentlyOccupied) {
 		this.tileCurrentlyOccupied = tileCurrentlyOccupied;
 	}
+
 	public int getPosX() {
 		return posX;
 	}
+
 	public void setPosX(int posX) {
 		this.posX = posX;
 	}
+
 	public int getPosY() {
 		return posY;
 	}
+
 	public void setPosY(int posY) {
 		this.posY = posY;
 	}
+
 	public int getTileCurrentPlayer() {
 		return tileCurrentPlayer;
 	}
+
 	public void setTileCurrentPlayer(int tileCurrentPlayer) {
 		this.tileCurrentPlayer = tileCurrentPlayer;
+	}
+
+	public int[][] getBoard() {
+		return board;
+	}
+
+	public void setBoard(int x, int y, int v) {
+		Board.board[x][y] = v;
 	}
 	// END of Getter and Setter methods.
 }
