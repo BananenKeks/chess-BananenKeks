@@ -14,8 +14,8 @@ public class Tile extends JPanel {
 	private String tileCurrentFigure = "none";
 	/*
 	 * // F i g u r e s // 0 = none none // 1 = Pawn(Bauer) P // 2 =
-	 * Bishop(Läufer) B // 3 = Knight(Springer) Kn // 4 = Rook(Turm) R // 5 =
-	 * King(König) K // 6 = Queen(Königin) Q
+	 * Bishop(LÃ¤ufer) B // 3 = Knight(Springer) Kn // 4 = Rook(Turm) R // 5 =
+	 * King(KÃ¶nig) K // 6 = Queen(KÃ¶nigin) Q
 	 */ // END f i g u r e s
 	private int tileCurrentPlayer = 0;
 	/*
@@ -38,6 +38,7 @@ public class Tile extends JPanel {
 		this.setPosX(posX);
 		this.setPosY(posY);
 	}
+
 	// Constructor for tile and color.
 	public Tile(int posY, int posX, Color tileColor) {
 		this.setSize(50, 50);
@@ -49,6 +50,7 @@ public class Tile extends JPanel {
 		this.setPosX(posX);
 		this.setPosY(posY);
 	}
+
 	// Constructor for tile, color and figure.
 	public Tile(int posY, int posX, Color tileColor, int tileCurrentPlayer,
 			String tileCurrentFigure, boolean tileCurrentlyOccupied) {
@@ -79,19 +81,24 @@ public class Tile extends JPanel {
 	public Color getTileColor() {
 		return tileColor;
 	}
+
 	public void setTileColor(Color tileColor) {
 		this.tileColor = tileColor;
 	}
+
 	public String getTileCurrentFigure() {
 		return tileCurrentFigure;
 	}
+
 	public void setTileCurrentFigure(String tileCurrentFigure) {
 		this.tileCurrentFigure = tileCurrentFigure;
 		this.getTileFigureDisplay().setText(tileCurrentFigure);
 	}
+
 	public int getTileCurrentPlayer() {
 		return tileCurrentPlayer;
 	}
+
 	public void setTileCurrentPlayer(int tileCurrentPlayer) {
 		this.tileCurrentPlayer = tileCurrentPlayer;
 		if (tileCurrentPlayer == 0) {
@@ -102,33 +109,43 @@ public class Tile extends JPanel {
 			this.tileFigureDisplay.setForeground(Color.BLACK);
 		}
 	}
+
 	public boolean isTileCurrentlyOccupied() {
 		return tileCurrentlyOccupied;
 	}
+
 	public void setTileCurrentlyOccupied(boolean tileCurrentlyOccupied) {
 		this.tileCurrentlyOccupied = tileCurrentlyOccupied;
 	}
+
 	public int getPosX() {
 		return posX;
 	}
+
 	public void setPosX(int posX) {
 		this.posX = posX;
 	}
+
 	public int getPosY() {
 		return posY;
 	}
+
 	public void setPosY(int posY) {
 		this.posY = posY;
 	}
+
 	public boolean isSelected() {
 		return selected;
 	}
+
 	public void setSelected(boolean selected) {
 		this.selected = selected;
 	}
+
 	public JLabel getTileFigureDisplay() {
 		return tileFigureDisplay;
 	}
+
 	public void setTileFigureDisplay(JLabel tileFigureDisplay) {
 		this.tileFigureDisplay = tileFigureDisplay;
 	}
