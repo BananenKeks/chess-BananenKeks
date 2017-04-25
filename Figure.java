@@ -9,6 +9,7 @@ public class Figure {
 	private int activeFigureX = 3;
 	private int activeFigureY = 5;
 	private boolean alreadyMoved = false;
+	private int board[][] = new int[8][8];
 	private int field[][] = new int[8][8];
 	private int allowedMoving[][] = new int[8][8];
 	// END of attributes
@@ -16,7 +17,7 @@ public class Figure {
 	// constructor for moving algorithm.
 	public Figure() {
 		// call moving algorithm.
-		calculateAllowedMovement();
+		// calculateAllowedMovement();
 	}
 	// END of constructor.
 
@@ -41,27 +42,8 @@ public class Figure {
 				else {
 					field[y][x] = 0;
 				}
-				// Do a break for printing into console!
-				// TODO remove after implementation into the game!
-				try {
-					// Break is 5 millisecond.
-					TimeUnit.MILLISECONDS.sleep(5);
-				} catch (InterruptedException e) {
-					// Break can't be executed!
-					System.err.println("Breaktimer in class Figure at 52 doesn't work! Printing StackTrace!");
-					e.printStackTrace();
-				}
-				// Printing current field of the board array.
-				System.out.print(field[y][x] + " ");
 			}
-			// Print a line break for visualizing array as board in console!
-			System.out.println(" Stop");
 		}
-		// Printing a spacer for separating arrays in console!
-		System.out.println();
-		System.out.println("Spacer");
-		// END of printing board array.
-
 		// What is the active figure?
 
 		// Active Figure is Pawn! Executing Pawn moving logic!
@@ -96,28 +78,18 @@ public class Figure {
 				// Can move to field on board! Marking it with 3(can override
 				// figures)!
 				if (allowedMoving[y][x] == 3) {
-					System.err.print(allowedMoving[y][x] + " ");
+					// System.err.print(allowedMoving[y][x] + " ");
 				}
 				// Can't move to field on board! Marking it with 0(none),
 				// 1(activeFigure), 2(foreignFigure)!
 				else {
-					System.out.print(allowedMoving[y][x] + " ");
+					// System.out.print(allowedMoving[y][x] + " ");
 				}
-				// Do a break for printing into console!
-				// TODO remove after implementation into the game!
-				try {
-					// Wait for 5 milliseconds!
-					TimeUnit.MILLISECONDS.sleep(5);
-				} catch (InterruptedException e) {
-					// Can't execute waiting timer!
-					System.err.println("Breaktimer in class Figure at 92 doesn't work! Printing StackTrace!");
-					e.printStackTrace();
-				}
+				Main.setaMoving(allowedMoving);
 			}
 			// Print a line break for visualizing array as board in console!
-			System.out.println(" Stop");
+			// System.out.println(" Stop");
 		}
-		// END of allowed movement printing.
 	}// END of moving algorithm.
 
 	// Algorithms for figure movements.
@@ -151,7 +123,8 @@ public class Figure {
 			// White Player is active player! This means Pawn moves towards
 			// Black!
 			if (getActivePlayer() == 1) {
-				for (int i = getActiveFigureY(); i <= getActiveFigureY() + 2; i++) {
+				for (int i = getActiveFigureY(); i <= getActiveFigureY()
+						+ 2; i++) {
 					if (getField()[i][getActiveFigureX()] == 4) {
 						allowedMoving[i][getActiveFigureX()] = 4;
 					}
@@ -174,7 +147,8 @@ public class Figure {
 			// Black Player is active player! This means Pawn moves towards
 			// White!
 			else {
-				for (int i = getActiveFigureY(); i >= getActiveFigureY() - 2; i--) {
+				for (int i = getActiveFigureY(); i >= getActiveFigureY()
+						- 2; i--) {
 					if (getField()[i][getActiveFigureX()] == 4) {
 						allowedMoving[i][getActiveFigureX()] = 4;
 					}
@@ -200,7 +174,8 @@ public class Figure {
 			// White Player is active player! This means Pawn moves towards
 			// Black!
 			if (getActivePlayer() == 1) {
-				for (int i = getActiveFigureY(); i <= getActiveFigureY() + 1; i++) {
+				for (int i = getActiveFigureY(); i <= getActiveFigureY()
+						+ 1; i++) {
 					if (getField()[i][getActiveFigureX()] == 4) {
 						allowedMoving[i][getActiveFigureX()] = 4;
 					}
@@ -223,7 +198,8 @@ public class Figure {
 			// Black Player is active player! This means Pawn moves towards
 			// White!
 			else {
-				for (int i = getActiveFigureY(); i >= getActiveFigureY() - 1; i--) {
+				for (int i = getActiveFigureY(); i >= getActiveFigureY()
+						- 1; i--) {
 					if (getField()[i][getActiveFigureX()] == 4) {
 						allowedMoving[i][getActiveFigureX()] = 4;
 					}
@@ -252,22 +228,30 @@ public class Figure {
 
 		// White player is active player! Foreign figure is Black and is under
 		// and right of active figure!
-		if (getActivePlayer() == 1 && getField()[getActiveFigureY() + 1][getActiveFigureX() - 1] == 2) {
+		if (getActivePlayer() == 1
+				&& getField()[getActiveFigureY() + 1][getActiveFigureX()
+						- 1] == 2) {
 			allowedMoving[getActiveFigureY() + 1][getActiveFigureX() - 1] = 3;
 		}
 		// White player is active player! Foreign figure is Black and is under
 		// and left of active figure!
-		if (getActivePlayer() == 1 && getField()[getActiveFigureY() + 1][getActiveFigureX() + 1] == 2) {
+		if (getActivePlayer() == 1
+				&& getField()[getActiveFigureY() + 1][getActiveFigureX()
+						+ 1] == 2) {
 			allowedMoving[getActiveFigureY() + 1][getActiveFigureX() + 1] = 3;
 		}
 		// Black player is active player! Foreign figure is White and is above
 		// and right of active figure!
-		if (getActivePlayer() == 2 && getField()[getActiveFigureY() - 1][getActiveFigureX() + 1] == 1) {
+		if (getActivePlayer() == 2
+				&& getField()[getActiveFigureY() - 1][getActiveFigureX()
+						+ 1] == 1) {
 			allowedMoving[getActiveFigureY() - 1][getActiveFigureX() + 1] = 3;
 		}
 		// Black player is active player! Foreign figure is White and is above
 		// and left of active figure!
-		if (getActivePlayer() == 2 && getField()[getActiveFigureY() - 1][getActiveFigureX() - 1] == 1) {
+		if (getActivePlayer() == 2
+				&& getField()[getActiveFigureY() - 1][getActiveFigureX()
+						- 1] == 1) {
 			allowedMoving[getActiveFigureY() - 1][getActiveFigureX() - 1] = 3;
 		}
 		// Nothing to kick!
@@ -391,32 +375,35 @@ public class Figure {
 		// Going up!
 		// Position of foreign Figure!
 		if (a >= 0) {
-			// Black
-			if (getField()[a][b] == 2) {
-				allowedMoving[a][b] = 2;
-				// Foreign figure is enemy. It can be kicked!
-				if (getField()[a][b] != getActivePlayer()) {
+			try {
+				// Black
+				if (getField()[a][b] == 2) {
+					allowedMoving[a][b] = 2;
+					// Foreign figure is enemy. It can be kicked!
+					if (getField()[a][b] != getActivePlayer()) {
+						allowedMoving[a][b] = 3;
+					}
+					// Foreign figure is friend. It can't be kicked!
+					else {
+					}
+					// Nothing. Can move here!
+				}
+				// White
+				else if (getField()[a][b] == 1) {
+					allowedMoving[a][b] = 1;
+					// Foreign figure is enemy. It can be kicked!
+					if (getField()[a][b] != getActivePlayer()) {
+						allowedMoving[a][b] = 3;
+					}
+					// Foreign figure is friend. It can't be kicked!
+					else {
+					}
+				} else {
 					allowedMoving[a][b] = 3;
 				}
-				// Foreign figure is friend. It can't be kicked!
-				else {
-				}
-				// Nothing. Can move here!
+			} catch (java.lang.ArrayIndexOutOfBoundsException e) {
+				System.err.println("Out of Bounds!");
 			}
-			// White
-			else if (getField()[a][b] == 1) {
-				allowedMoving[a][b] = 1;
-				// Foreign figure is enemy. It can be kicked!
-				if (getField()[a][b] != getActivePlayer()) {
-					allowedMoving[a][b] = 3;
-				}
-				// Foreign figure is friend. It can't be kicked!
-				else {
-				}
-			} else {
-				allowedMoving[a][b] = 3;
-			}
-
 			b = getActiveFigureX() + 1;
 			// Black
 			if (getField()[a][b] == 2) {
@@ -636,7 +623,7 @@ public class Figure {
 				}
 			}
 			// White
-			if (getField()[a][b] == 1) {
+			else if (getField()[a][b] == 1) {
 				allowedMoving[a][b] = 1;
 				// Foreign figure is enemy. It can be kicked!
 				if (getField()[a][b] != getActivePlayer()) {
@@ -1013,7 +1000,7 @@ public class Figure {
 	}
 
 	public int getForeignFigurePos(int x, int y) {
-		return Main.start.getBoard()[x][y];
+		return getBoard()[x][y];
 	}
 
 	public boolean isAlreadyMoved() {
@@ -1038,6 +1025,14 @@ public class Figure {
 
 	public void setField(int[][] field) {
 		this.field = field;
+	}
+
+	public int[][] getBoard() {
+		return board;
+	}
+
+	public void setBoard(int board[][]) {
+		this.board = board;
 	}
 	// END of Getter and Setter methods
 }
