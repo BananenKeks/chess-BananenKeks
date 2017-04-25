@@ -2,8 +2,6 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.concurrent.TimeUnit;
-
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
@@ -35,27 +33,28 @@ public class Board extends JFrame {
 	private static int ax = 0;
 	private static int ay = 0;
 	private static int ap = 0;
+	private static String af = "";
 	// END of attributes.
 
 	// Creating tile objects form class Tile. Also adding attributes to tiles.
 	// Row 1(Top).
-	private Tile t11 = new Tile(0, 0, Color.decode("#CDAA7D"), 1, "T", true);
-	private Tile t12 = new Tile(0, 1, Color.decode("#8B7355"), 1, "S", true);
-	private Tile t13 = new Tile(0, 2, Color.decode("#CDAA7D"), 1, "L", true);
+	private Tile t11 = new Tile(0, 0, Color.decode("#CDAA7D"), 1, "R", true);
+	private Tile t12 = new Tile(0, 1, Color.decode("#8B7355"), 1, "Kn", true);
+	private Tile t13 = new Tile(0, 2, Color.decode("#CDAA7D"), 1, "B", true);
 	private Tile t14 = new Tile(0, 3, Color.decode("#8B7355"), 1, "Q", true);
 	private Tile t15 = new Tile(0, 4, Color.decode("#CDAA7D"), 1, "K", true);
-	private Tile t16 = new Tile(0, 5, Color.decode("#8B7355"), 1, "L", true);
-	private Tile t17 = new Tile(0, 6, Color.decode("#CDAA7D"), 1, "S", true);
-	private Tile t18 = new Tile(0, 7, Color.decode("#8B7355"), 1, "T", true);
+	private Tile t16 = new Tile(0, 5, Color.decode("#8B7355"), 1, "B", true);
+	private Tile t17 = new Tile(0, 6, Color.decode("#CDAA7D"), 1, "Kn", true);
+	private Tile t18 = new Tile(0, 7, Color.decode("#8B7355"), 1, "R", true);
 	// Row 2.
-	private Tile t21 = new Tile(1, 0, Color.decode("#8B7355"), 1, "B", true);
-	private Tile t22 = new Tile(1, 1, Color.decode("#CDAA7D"), 1, "B", true);
-	private Tile t23 = new Tile(1, 2, Color.decode("#8B7355"), 1, "B", true);
-	private Tile t24 = new Tile(1, 3, Color.decode("#CDAA7D"), 1, "B", true);
-	private Tile t25 = new Tile(1, 4, Color.decode("#8B7355"), 1, "B", true);
-	private Tile t26 = new Tile(1, 5, Color.decode("#CDAA7D"), 1, "B", true);
-	private Tile t27 = new Tile(1, 6, Color.decode("#8B7355"), 1, "B", true);
-	private Tile t28 = new Tile(1, 7, Color.decode("#CDAA7D"), 1, "B", true);
+	private Tile t21 = new Tile(1, 0, Color.decode("#8B7355"), 1, "P", true);
+	private Tile t22 = new Tile(1, 1, Color.decode("#CDAA7D"), 1, "P", true);
+	private Tile t23 = new Tile(1, 2, Color.decode("#8B7355"), 1, "P", true);
+	private Tile t24 = new Tile(1, 3, Color.decode("#CDAA7D"), 1, "P", true);
+	private Tile t25 = new Tile(1, 4, Color.decode("#8B7355"), 1, "P", true);
+	private Tile t26 = new Tile(1, 5, Color.decode("#CDAA7D"), 1, "P", true);
+	private Tile t27 = new Tile(1, 6, Color.decode("#8B7355"), 1, "P", true);
+	private Tile t28 = new Tile(1, 7, Color.decode("#CDAA7D"), 1, "P", true);
 	// Row 3.
 	private Tile t31 = new Tile(2, 0, Color.decode("#CDAA7D"));
 	private Tile t32 = new Tile(2, 1, Color.decode("#8B7355"));
@@ -93,23 +92,23 @@ public class Board extends JFrame {
 	private Tile t67 = new Tile(5, 6, Color.decode("#8B7355"));
 	private Tile t68 = new Tile(5, 7, Color.decode("#CDAA7D"));
 	// Row 7.
-	private Tile t71 = new Tile(6, 0, Color.decode("#CDAA7D"), 2, "B", true);
-	private Tile t72 = new Tile(6, 1, Color.decode("#8B7355"), 2, "B", true);
-	private Tile t73 = new Tile(6, 2, Color.decode("#CDAA7D"), 2, "B", true);
-	private Tile t74 = new Tile(6, 3, Color.decode("#8B7355"), 2, "B", true);
-	private Tile t75 = new Tile(6, 4, Color.decode("#CDAA7D"), 2, "B", true);
-	private Tile t76 = new Tile(6, 5, Color.decode("#8B7355"), 2, "B", true);
-	private Tile t77 = new Tile(6, 6, Color.decode("#CDAA7D"), 2, "B", true);
-	private Tile t78 = new Tile(6, 7, Color.decode("#8B7355"), 2, "B", true);
+	private Tile t71 = new Tile(6, 0, Color.decode("#CDAA7D"), 2, "P", true);
+	private Tile t72 = new Tile(6, 1, Color.decode("#8B7355"), 2, "P", true);
+	private Tile t73 = new Tile(6, 2, Color.decode("#CDAA7D"), 2, "P", true);
+	private Tile t74 = new Tile(6, 3, Color.decode("#8B7355"), 2, "P", true);
+	private Tile t75 = new Tile(6, 4, Color.decode("#CDAA7D"), 2, "P", true);
+	private Tile t76 = new Tile(6, 5, Color.decode("#8B7355"), 2, "P", true);
+	private Tile t77 = new Tile(6, 6, Color.decode("#CDAA7D"), 2, "P", true);
+	private Tile t78 = new Tile(6, 7, Color.decode("#8B7355"), 2, "P", true);
 	// Row 8(bottom).
-	private Tile t81 = new Tile(7, 0, Color.decode("#8B7355"), 2, "T", true);
-	private Tile t82 = new Tile(7, 1, Color.decode("#CDAA7D"), 2, "S", true);
-	private Tile t83 = new Tile(7, 2, Color.decode("#8B7355"), 2, "L", true);
+	private Tile t81 = new Tile(7, 0, Color.decode("#8B7355"), 2, "R", true);
+	private Tile t82 = new Tile(7, 1, Color.decode("#CDAA7D"), 2, "Kn", true);
+	private Tile t83 = new Tile(7, 2, Color.decode("#8B7355"), 2, "B", true);
 	private Tile t84 = new Tile(7, 3, Color.decode("#CDAA7D"), 2, "Q", true);
 	private Tile t85 = new Tile(7, 4, Color.decode("#8B7355"), 2, "K", true);
-	private Tile t86 = new Tile(7, 5, Color.decode("#CDAA7D"), 2, "L", true);
-	private Tile t87 = new Tile(7, 6, Color.decode("#8B7355"), 2, "S", true);
-	private Tile t88 = new Tile(7, 7, Color.decode("#CDAA7D"), 2, "T", true);
+	private Tile t86 = new Tile(7, 5, Color.decode("#CDAA7D"), 2, "B", true);
+	private Tile t87 = new Tile(7, 6, Color.decode("#8B7355"), 2, "Kn", true);
+	private Tile t88 = new Tile(7, 7, Color.decode("#CDAA7D"), 2, "R", true);
 	// END of tile object creation.
 
 	// Constructor for game window
@@ -127,21 +126,21 @@ public class Board extends JFrame {
 
 		// add Rows to Board. Add MouseListener to tiles.
 		this.add(t11).addMouseListener(ma);
-		Board.board[0][0]=1;
+		Board.board[0][0] = 1;
 		this.add(t12).addMouseListener(ma);
-		Board.board[1][0]=1;
+		Board.board[1][0] = 1;
 		this.add(t13).addMouseListener(ma);
-		Board.board[2][0]=1;
+		Board.board[2][0] = 1;
 		this.add(t14).addMouseListener(ma);
-		Board.board[3][0]=1;
+		Board.board[3][0] = 1;
 		this.add(t15).addMouseListener(ma);
-		Board.board[4][0]=1;
+		Board.board[4][0] = 1;
 		this.add(t16).addMouseListener(ma);
-		Board.board[5][0]=1;
+		Board.board[5][0] = 1;
 		this.add(t17).addMouseListener(ma);
-		Board.board[6][0]=1;
+		Board.board[6][0] = 1;
 		this.add(t18).addMouseListener(ma);
-		Board.board[7][0]=1;
+		Board.board[7][0] = 1;
 		this.t11.addMouseMotionListener(ma);
 		this.t12.addMouseMotionListener(ma);
 		this.t13.addMouseMotionListener(ma);
@@ -152,21 +151,21 @@ public class Board extends JFrame {
 		this.t18.addMouseMotionListener(ma);
 
 		this.add(t21).addMouseListener(ma);
-		Board.board[0][1]=1;
+		Board.board[0][1] = 1;
 		this.add(t22).addMouseListener(ma);
-		Board.board[1][1]=1;
+		Board.board[1][1] = 1;
 		this.add(t23).addMouseListener(ma);
-		Board.board[2][1]=1;
+		Board.board[2][1] = 1;
 		this.add(t24).addMouseListener(ma);
-		Board.board[3][1]=1;
+		Board.board[3][1] = 1;
 		this.add(t25).addMouseListener(ma);
-		Board.board[4][1]=1;
+		Board.board[4][1] = 1;
 		this.add(t26).addMouseListener(ma);
-		Board.board[5][1]=1;
+		Board.board[5][1] = 1;
 		this.add(t27).addMouseListener(ma);
-		Board.board[6][1]=1;
+		Board.board[6][1] = 1;
 		this.add(t28).addMouseListener(ma);
-		Board.board[7][1]=1;
+		Board.board[7][1] = 1;
 		this.t21.addMouseMotionListener(ma);
 		this.t22.addMouseMotionListener(ma);
 		this.t23.addMouseMotionListener(ma);
@@ -245,21 +244,21 @@ public class Board extends JFrame {
 		this.t68.addMouseMotionListener(ma);
 
 		this.add(t71).addMouseListener(ma);
-		Board.board[0][6]=2;
+		Board.board[0][6] = 2;
 		this.add(t72).addMouseListener(ma);
-		Board.board[1][6]=2;
+		Board.board[1][6] = 2;
 		this.add(t73).addMouseListener(ma);
-		Board.board[2][6]=2;
+		Board.board[2][6] = 2;
 		this.add(t74).addMouseListener(ma);
-		Board.board[3][6]=2;
+		Board.board[3][6] = 2;
 		this.add(t75).addMouseListener(ma);
-		Board.board[4][6]=2;
+		Board.board[4][6] = 2;
 		this.add(t76).addMouseListener(ma);
-		Board.board[5][6]=2;
+		Board.board[5][6] = 2;
 		this.add(t77).addMouseListener(ma);
-		Board.board[6][6]=2;
+		Board.board[6][6] = 2;
 		this.add(t78).addMouseListener(ma);
-		Board.board[7][6]=2;
+		Board.board[7][6] = 2;
 		this.t71.addMouseMotionListener(ma);
 		this.t72.addMouseMotionListener(ma);
 		this.t73.addMouseMotionListener(ma);
@@ -270,21 +269,21 @@ public class Board extends JFrame {
 		this.t78.addMouseMotionListener(ma);
 
 		this.add(t81).addMouseListener(ma);
-		Board.board[0][7]=2;
+		Board.board[0][7] = 2;
 		this.add(t82).addMouseListener(ma);
-		Board.board[1][7]=2;
+		Board.board[1][7] = 2;
 		this.add(t83).addMouseListener(ma);
-		Board.board[2][7]=2;
+		Board.board[2][7] = 2;
 		this.add(t84).addMouseListener(ma);
-		Board.board[3][7]=2;
+		Board.board[3][7] = 2;
 		this.add(t85).addMouseListener(ma);
-		Board.board[4][7]=2;
+		Board.board[4][7] = 2;
 		this.add(t86).addMouseListener(ma);
-		Board.board[5][7]=2;
+		Board.board[5][7] = 2;
 		this.add(t87).addMouseListener(ma);
-		Board.board[6][7]=2;
+		Board.board[6][7] = 2;
 		this.add(t88).addMouseListener(ma);
-		Board.board[7][7]=2;
+		Board.board[7][7] = 2;
 		this.t81.addMouseMotionListener(ma);
 		this.t82.addMouseMotionListener(ma);
 		this.t83.addMouseMotionListener(ma);
@@ -294,40 +293,32 @@ public class Board extends JFrame {
 		this.t87.addMouseMotionListener(ma);
 		this.t88.addMouseMotionListener(ma);
 		// END of adding tiles.
-		
-		drawBoard();
+
+		Main.click.setBoard(getBoard());
+		// drawBoard();
 	}
 	// END of constructor.
 
 	// Creating MouseAdapter.
 	MouseAdapter ma = new MouseAdapter() {
+		private boolean mouseDrag = false;
+		@SuppressWarnings("unused")
+		private boolean mouseMove = false;
+		@SuppressWarnings("unused")
+		private boolean mouseClick = false;
+		@SuppressWarnings("unused")
+		private boolean mouseEnter = false;
+		@SuppressWarnings("unused")
+		private boolean mouseExit = false;
+		@SuppressWarnings("unused")
+		private boolean mousePress = false;
+		@SuppressWarnings("unused")
+		private boolean mouseRelease = false;
 
 		// Mouse is clicked and moved.
-		// TODO need a proper algorithm. Still a glitch in here.
-		@Override
 		public void mouseDragged(MouseEvent mouseEvent) {
-			// ListenerInterrupted should stop this event afterwards. It doesn't
-			// work though.
-			// TODO fix this!
-			if (isListenerInterrupted() == false) {
-				// Left mouse button is clicked!
-				if (SwingUtilities.isLeftMouseButton(mouseEvent)) {
-					// Execute mouseClicked for the mouseEvent!
-					mouseClicked(mouseEvent);
-					// ListenerInterrupted is set to true, so this method should
-					// not be executed.
-					// TODO this leads to the event that you can call this
-					// method only once.
-					// This needs to be fixed. Maybe with a timer?
-					setListenerInterrupted(true);
-				}
-				// Do nothing when the right mouse button is clicked!
-				else {
-				}
-			}
-			// Do nothing when the listener is interrupted!
-			else {
-			}
+			mouseDrag = true;
+			mouseDrag = false;
 		}
 		// END of mouseDraggedMethod.
 
@@ -335,15 +326,20 @@ public class Board extends JFrame {
 		// This method is currently not in use.
 		@Override
 		public void mouseMoved(MouseEvent mouseEvent) {
+			mouseMove = true;
 			// unused!
+			mouseMove = false;
 		}
 		// END of mouseMovedMethod.
 
 		// Method for a mouse click.
 		@Override
 		public void mouseClicked(MouseEvent mouseEvent) {
+			mouseClick = true;
 			// Left mouse button is clicked!
-			if (SwingUtilities.isLeftMouseButton(mouseEvent)) {
+			if (SwingUtilities.isLeftMouseButton(mouseEvent)
+					|| SwingUtilities.isLeftMouseButton(mouseEvent)
+							&& mouseDrag == true) {
 				// There is currently no figure selected. This attribute is used
 				// to separate a click for picking up a figure and a click for
 				// moving a figure.
@@ -381,13 +377,26 @@ public class Board extends JFrame {
 							setChosenFigure(((Tile) mouseEvent.getSource())
 									.getTileCurrentFigure());
 							// Getting X from clicked figure.
-							//setPosX(((Tile) mouseEvent.getSource()).getPosX());
+							// setPosX(((Tile)
+							// mouseEvent.getSource()).getPosX());
 							// Getting Y from clicked figure.
-							//setPosY(((Tile) mouseEvent.getSource()).getPosY());
+							// setPosY(((Tile)
+							// mouseEvent.getSource()).getPosY());
 							ax = (((Tile) mouseEvent.getSource()).getPosX());
+							// System.out.println(ax);
 							ay = (((Tile) mouseEvent.getSource()).getPosY());
-							ap = ((Tile) mouseEvent.getSource()).getTileCurrentPlayer();
-							Board.board[ax][ay]=0;
+							// System.out.println(ay);
+							ap = ((Tile) mouseEvent.getSource())
+									.getTileCurrentPlayer();
+							af = ((Tile) mouseEvent.getSource())
+									.getTileCurrentFigure();
+							// System.out.println(ap);
+							Main.click.setActiveFigure(af);
+							Main.click.setActiveFigureX(ax);
+							Main.click.setActiveFigureY(ay);
+							Main.click.setActivePlayer(ap);
+							Main.click.calculateAllowedMovement();
+							Board.board[ax][ay] = 0;
 							// Changing state of pickedUp attribute to be able
 							// to move the figure on the next click!
 							setPickedUp(true);
@@ -408,8 +417,6 @@ public class Board extends JFrame {
 							// Executing mouseEntered method!
 							mouseEntered(mouseEvent);
 							// Printing clicked tile!
-							// TODO remove this when not needed anymore.
-							System.out.println(((Tile) mouseEvent.getSource()));
 						}
 						// END of checking for figure player equality.
 					}
@@ -418,44 +425,74 @@ public class Board extends JFrame {
 				// END of algorithm for picking a figure up.
 				// Algorithm for moving a figure.
 				else {
-					// Set clicked tile occupation state to true. Now there is a
-					// figure!
-					((Tile) mouseEvent.getSource())
-							.setTileCurrentlyOccupied(true);
-					// Set figure type of tile picked up figure. Now there is
-					// that figure!
-					((Tile) mouseEvent.getSource())
-							.setTileCurrentFigure(getChosenFigure());
-					// Set the player state of tile to active player. Now there
-					// is a figure from the active player on the tile!
-					((Tile) mouseEvent.getSource())
-							.setTileCurrentPlayer(getCurrentActivePlayer());
-					// Change state pickedUp to false. Now another figure can be
-					// picked up!
-					setPickedUp(false);
-					// update Array
-					Board.board[((Tile) mouseEvent.getSource()).getPosX()][((Tile) mouseEvent.getSource()).getPosY()]=ap;
-					// Change class own attribute to false!
-					setTileCurrentlyOccupied(false);
-					// Change class own attribute to 0!
-					setTileCurrentPlayer(0);
-					// Change class own attribute to "none"!
-					setChosenFigure("none");
-					// Printing clicked tile!
-					// TODO remove this when not needed anymore.
-					System.out.println(((Tile) mouseEvent.getSource()));
-					// Switch to change the active player after movement.
-					// White to Black!
-					if (getCurrentActivePlayer() == 1) {
-						setCurrentActivePlayer(2);
+					if (Main.getaMoving()[((Tile) mouseEvent.getSource())
+							.getPosY()][((Tile) mouseEvent.getSource())
+									.getPosX()] == 3) {
+						// Set clicked tile occupation state to true. Now
+						// there
+						// is a
+						// figure!
+						((Tile) mouseEvent.getSource())
+								.setTileCurrentlyOccupied(true);
+						// Set figure type of tile picked up figure. Now
+						// there
+						// is
+						// that figure!
+						((Tile) mouseEvent.getSource())
+								.setTileCurrentFigure(getChosenFigure());
+						// Set the player state of tile to active player.
+						// Now
+						// there
+						// is a figure from the active player on the tile!
+						((Tile) mouseEvent.getSource())
+								.setTileCurrentPlayer(getCurrentActivePlayer());
+						// Change state pickedUp to false. Now another
+						// figure
+						// can be
+						// picked up!
+						setPickedUp(false);
+						// update Array
+						Board.board[((Tile) mouseEvent.getSource())
+								.getPosX()][((Tile) mouseEvent.getSource())
+										.getPosY()] = ap;
+						// Change class own attribute to false!
+						setTileCurrentlyOccupied(false);
+						// Change class own attribute to 0!
+						setTileCurrentPlayer(0);
+						// Change class own attribute to "none"!
+						setChosenFigure("none");
+						// Printing clicked tile!
+						// Switch to change the active player after
+						// movement.
+						// White to Black!
+						if (getCurrentActivePlayer() == 1) {
+							setCurrentActivePlayer(2);
+						}
+						// Black to White!
+						else {
+							setCurrentActivePlayer(1);
+						}
+						// END of switch.
+						// Execute mouseEntered.
+						mouseEntered(mouseEvent);
+					} else {
+						System.err.println("You can't go to: ("
+								+ ((Tile) mouseEvent.getSource()).getPosX()
+								+ "|"
+								+ ((Tile) mouseEvent.getSource()).getPosY()
+								+ ")");
+						System.out.println(Main
+								.getaMoving()[((Tile) mouseEvent.getSource())
+										.getPosY()][((Tile) mouseEvent
+												.getSource()).getPosX()]);
+						System.out.println(af);
+						for (int m = 0; m < 8; m++) {
+							for (int n = 0; n < 8; n++) {
+								System.out.print(Main.getaMoving()[m][n] + " ");
+							}
+							System.out.println();
+						}
 					}
-					// Black to White!
-					else {
-						setCurrentActivePlayer(1);
-					}
-					// END of switch.
-					// Execute mouseEntered.
-					mouseEntered(mouseEvent);
 				}
 				// END of algorithm for movement.
 			}
@@ -469,7 +506,8 @@ public class Board extends JFrame {
 				System.err.println("STOP IT");
 			}
 			// END of intercept.
-			drawBoard();
+			// drawBoard();
+			mouseClick = false;
 		}
 		// END of mouseClicked method.
 
@@ -477,6 +515,7 @@ public class Board extends JFrame {
 		// enters.
 		@Override
 		public void mouseEntered(MouseEvent mouseEvent) {
+			mouseEnter = true;
 			// A figure is picked up!
 			if (isPickedUp() == true) {
 				// Make tile background Green! Make text Black!
@@ -499,6 +538,7 @@ public class Board extends JFrame {
 						.setForeground(Color.WHITE);
 			}
 			// END of color selection algorithm.
+			mouseEnter = false;
 		}
 		// END of mouseEntered method.
 
@@ -506,6 +546,7 @@ public class Board extends JFrame {
 		// color.
 		@Override
 		public void mouseExited(MouseEvent mouseEvent) {
+			mouseExit = true;
 			// Set the background of the tile to the original tile color!
 			// TODO maybe shorten this.
 			((Tile) mouseEvent.getSource()).setBackground(
@@ -530,20 +571,25 @@ public class Board extends JFrame {
 						.setForeground(Color.RED);
 			}
 			// END of color selection algorithm.
+			mouseExit = false;
 		}
 		// END of method for mouseExited.
 
 		// Method for mousePressed event.
 		@Override
 		public void mousePressed(MouseEvent mouseEvent) {
+			mousePress = true;
 			// unused!
+			mousePress = false;
 		}
 		// END of mousePressed method.
 
 		// Method for mouseReleased event.
 		@Override
 		public void mouseReleased(MouseEvent mouseEvent) {
+			mouseRelease = true;
 			// unused!
+			mouseRelease = false;
 		}
 		// END of mouseReleased event.
 	};
@@ -553,23 +599,23 @@ public class Board extends JFrame {
 	private void setBoardNull() {
 		for (int y = 0; y < 8; y++) {
 			for (int x = 0; x < 8; x++) {
-				board[x][y]=0;
+				board[x][y] = 0;
 			}
 		}
 	}
 	// END Board filler
-	
-	//draw board
-	private void drawBoard(){	
+
+	// TODO draw board if needed(DEBUGGING)
+	/* private void drawBoard() {
 		for (int y = 0; y < 8; y++) {
 			for (int x = 0; x < 8; x++) {
 				System.out.print(getBoard()[x][y] + " ");
 			}
 			System.out.println();
 		}
-	}
-	//END draw board
-	
+	}*/
+	// END draw board
+
 	// Getter and Setter methods.
 	public int getCurrentActivePlayer() {
 		return currentActivePlayer;
