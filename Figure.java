@@ -1,810 +1,208 @@
-import java.util.concurrent.TimeUnit;
+package figs;
 
-//This class has the movement algorithms of all figures.
+//This class keeps general attributes and methods for figures
 public class Figure {
 
 	// Attributes for calculating figure movement.
-	private int activePlayer = 1;
-	private String activeFigure = "P";
-	private int activeFigureX = 3;
-	private int activeFigureY = 5;
-	private boolean alreadyMoved = false;
-	private int board[][] = new int[8][8];
-	private int field[][] = new int[8][8];
+	private int figurePlayer = 0;
+	private int figureX = 0;
+	private int figureY = 0;
+	private boolean figureMoved = false;
+
+	private int allFigures[][] = new int[8][8];
+	private int figureView[][] = new int[8][8];
 	private int allowedMoving[][] = new int[8][8];
 	// END of attributes
 
 	// constructor for moving algorithm.
 	public Figure() {
-		// call moving algorithm.
-		// calculateAllowedMovement();
 	}
 	// END of constructor.
 
-	// Moving algorithm. Fills calculation into arrays. Searches for figures on
-	// board!
-	public void calculateAllowedMovement() {
+	// Searching algorithm. Fills calculation into arrays. Searches for figures
+	// in
+	// allFigures!
+	public void findFiguresOnBoard() {
 		for (int y = 0; y < 8; y++) {
 			for (int x = 0; x < 8; x++) {
-				// Found active figure on the board! Marking it with 4!
-				if (getActiveFigureX() == x && getActiveFigureY() == y) {
-					field[y][x] = 4;
+				// Found this figure in allFigures! Marking it with 4!
+				if (getFigureX() == x && getFigureY() == y) {
+					setFigureView(x, y, 4);
 				}
-				// Found foreign figure(White) on the board! Marking it with 1!
-				else if (getForeignFigurePos(x, y) == 1) {
-					field[y][x] = 1;
+				// Found foreign figure(White) in allFigures! Marking it with 1!
+				else if (getAllFigures()[x][y] == 1) {
+					setFigureView(x, y, 1);
 				}
-				// Found foreign figure(Black) on the board! Marking it with 2!
-				else if (getForeignFigurePos(x, y) == 2) {
-					field[y][x] = 2;
+				// Found foreign figure(Black) in allFigures! Marking it with 2!
+				else if (getAllFigures()[x][y] == 2) {
+					setFigureView(x, y, 2);
 				}
-				// Found empty field on the board! Marking it with 0!
+				// Found empty field in allFigures! Marking it with 0!
 				else {
-					field[y][x] = 0;
+					setFigureView(x, y, 0);
 				}
 			}
-		}
-		// What is the active figure?
-
-		// Active Figure is Pawn! Executing Pawn moving logic!
-		if (getActiveFigure() == "P") {
-			logicP();
-		}
-		// Active Figure is Rook! Executing Rook moving logic!
-		if (getActiveFigure() == "R") {
-			logicR();
-		}
-		// Active Figure is Queen! Executing Queen moving logic!
-		if (getActiveFigure() == "Q") {
-			logicQ();
-		}
-		// Active Figure is Bishop! Executing Bishop moving logic!
-		if (getActiveFigure() == "B") {
-			logicB();
-		}
-		// Active Figure is Knight! Executing Knight moving logic!
-		if (getActiveFigure() == "Kn") {
-			logicKn();
-		}
-		// Active Figure is King! Executing King moving logic!
-		if (getActiveFigure() == "K") {
-			logicK();
-		}
-		// END of searching for active figure.
-
-		// Moving algorithm. Prints allowed movement.
-		for (int y = 0; y < 8; y++) {
-			for (int x = 0; x < 8; x++) {
-				// Can move to field on board! Marking it with 3(can override
-				// figures)!
-				if (allowedMoving[y][x] == 3) {
-					// System.err.print(allowedMoving[y][x] + " ");
-				}
-				// Can't move to field on board! Marking it with 0(none),
-				// 1(activeFigure), 2(foreignFigure)!
-				else {
-					// System.out.print(allowedMoving[y][x] + " ");
-				}
-				Main.setaMoving(allowedMoving);
-			}
-			// Print a line break for visualizing array as board in console!
-			// System.out.println(" Stop");
-		}
-	}// END of moving algorithm.
-
-	// Algorithms for figure movements.
-	// Calculation algorithm for movement of the Pawn figure.
-	private void logicP() {
-		// TODO Still need some logic for reaching the enemies end
-
-		// Find the current Position of the active Figure on the Board.
-		for (int y = 0; y < 8; y++) {
-			for (int x = 0; x < 8; x++) {
-				// Found the active Figure! Marking this field with 4 in Array!
-				if (getActiveFigureX() == x && getActiveFigureY() == y) {
-					allowedMoving[y][x] = 4;
-				}
-				// Still not found active Figure! Marking this field with 0 in
-				// Array!
-				else {
-					allowedMoving[y][x] = 0;
-				}
-			}
-		}
-		// END of finding current figure
-
-		// Algorithm for first movement of the Pawn.
-		// Was the figure moved?
-		// Who is the active Player?
-		// Is something in front of the Pawn?
-
-		// Pawn wasn't moved!
-		if (isAlreadyMoved() == false) {
-			// White Player is active player! This means Pawn moves towards
-			// Black!
-			if (getActivePlayer() == 1) {
-				for (int i = getActiveFigureY(); i <= getActiveFigureY()
-						+ 2; i++) {
-					if (getField()[i][getActiveFigureX()] == 4) {
-						allowedMoving[i][getActiveFigureX()] = 4;
-					}
-					// Found White Figure!
-					else if (getField()[i][getActiveFigureX()] == 1) {
-						allowedMoving[i][getActiveFigureX()] = 1;
-						i = i + 3;
-					}
-					// Found Black Figure!
-					else if (getField()[i][getActiveFigureX()] == 2) {
-						allowedMoving[i][getActiveFigureX()] = 2;
-						i = i + 3;
-					}
-					// Found no Figure!
-					else {
-						allowedMoving[i][getActiveFigureX()] = 3;
-					}
-				}
-			}
-			// Black Player is active player! This means Pawn moves towards
-			// White!
-			else {
-				for (int i = getActiveFigureY(); i >= getActiveFigureY()
-						- 2; i--) {
-					if (getField()[i][getActiveFigureX()] == 4) {
-						allowedMoving[i][getActiveFigureX()] = 4;
-					}
-					// Found White Figure!
-					else if (getField()[i][getActiveFigureX()] == 1) {
-						allowedMoving[i][getActiveFigureX()] = 1;
-						i = i - 3;
-					}
-					// Found Black Figure!
-					else if (getField()[i][getActiveFigureX()] == 2) {
-						allowedMoving[i][getActiveFigureX()] = 2;
-						i = i - 3;
-					}
-					// Found no Figure!
-					else {
-						allowedMoving[i][getActiveFigureX()] = 3;
-					}
-				}
-			}
-		}
-		// Pawn was moved!
-		else {
-			// White Player is active player! This means Pawn moves towards
-			// Black!
-			if (getActivePlayer() == 1) {
-				for (int i = getActiveFigureY(); i <= getActiveFigureY()
-						+ 1; i++) {
-					if (getField()[i][getActiveFigureX()] == 4) {
-						allowedMoving[i][getActiveFigureX()] = 4;
-					}
-					// Found White Figure!
-					else if (getField()[i][getActiveFigureX()] == 1) {
-						allowedMoving[i][getActiveFigureX()] = 1;
-						i = i + 3;
-					}
-					// Found Black Figure!
-					else if (getField()[i][getActiveFigureX()] == 2) {
-						allowedMoving[i][getActiveFigureX()] = 2;
-						i = i + 3;
-					}
-					// Found no Figure!
-					else {
-						allowedMoving[i][getActiveFigureX()] = 3;
-					}
-				}
-			}
-			// Black Player is active player! This means Pawn moves towards
-			// White!
-			else {
-				for (int i = getActiveFigureY(); i >= getActiveFigureY()
-						- 1; i--) {
-					if (getField()[i][getActiveFigureX()] == 4) {
-						allowedMoving[i][getActiveFigureX()] = 4;
-					}
-					// Found White Figure!
-					else if (getField()[i][getActiveFigureX()] == 1) {
-						allowedMoving[i][getActiveFigureX()] = 1;
-						i = i - 3;
-					}
-					// Found Black Figure!
-					else if (getField()[i][getActiveFigureX()] == 2) {
-						allowedMoving[i][getActiveFigureX()] = 2;
-						i = i - 3;
-					}
-					// Found no Figure!
-					else {
-						allowedMoving[i][getActiveFigureX()] = 3;
-					}
-				}
-			}
-		}
-
-		// Algorithm to kick another figure.
-		// Who is the active player?
-		// What color has the foreign figure?
-		// Where is the foreign figure?
-
-		// White player is active player! Foreign figure is Black and is under
-		// and right of active figure!
-		if (getActivePlayer() == 1
-				&& getField()[getActiveFigureY() + 1][getActiveFigureX()
-						- 1] == 2) {
-			allowedMoving[getActiveFigureY() + 1][getActiveFigureX() - 1] = 3;
-		}
-		// White player is active player! Foreign figure is Black and is under
-		// and left of active figure!
-		if (getActivePlayer() == 1
-				&& getField()[getActiveFigureY() + 1][getActiveFigureX()
-						+ 1] == 2) {
-			allowedMoving[getActiveFigureY() + 1][getActiveFigureX() + 1] = 3;
-		}
-		// Black player is active player! Foreign figure is White and is above
-		// and right of active figure!
-		if (getActivePlayer() == 2
-				&& getField()[getActiveFigureY() - 1][getActiveFigureX()
-						+ 1] == 1) {
-			allowedMoving[getActiveFigureY() - 1][getActiveFigureX() + 1] = 3;
-		}
-		// Black player is active player! Foreign figure is White and is above
-		// and left of active figure!
-		if (getActivePlayer() == 2
-				&& getField()[getActiveFigureY() - 1][getActiveFigureX()
-						- 1] == 1) {
-			allowedMoving[getActiveFigureY() - 1][getActiveFigureX() - 1] = 3;
-		}
-		// Nothing to kick!
-		else {
 		}
 	}
-
-	// Calculation algorithm for movement of the Rook figure.
-	private void logicR() {
-		// Find the current Position of the active Figure on the Board.
-		for (int y = 0; y < 8; y++) {
-			for (int x = 0; x < 8; x++) {
-				// Found the active Figure! Marking this field with 1 in Array!
-				if (getActiveFigureX() == x && getActiveFigureY() == y) {
-					allowedMoving[y][x] = 1;
-				}
-				// Still not found active Figure! Marking this field with 0 in
-				// Array!
-				else {
-					allowedMoving[y][x] = 0;
-				}
-			}
-		}
-		// END of finding current figure
-
-		// Algorithm for first movement of the Rook.
-		// Was the figure moved?
-
-		// Rook wasn't moved!
-		if (isAlreadyMoved() == false) {
-			// Execute calculation of horizontal and vertical movement.
-			// TODO add movement for switching King and Rook when not moved!
-			horizontalAndVerticalMoving();
-		}
-		// Rook was moved!
-		else {
-			// Execute calculation of horizontal and vertical movement.
-			horizontalAndVerticalMoving();
-		}
-		// END of Rook.
-	}
-
-	// Calculation algorithm for movement of the Queen figure.
-	private void logicQ() {
-		// Find the current Position of the active Figure on the Board.
-		for (int y = 0; y < 8; y++) {
-			for (int x = 0; x < 8; x++) {
-				// Found the active Figure! Marking this field with 1 in Array!
-				if (getActiveFigureX() == x && getActiveFigureY() == y) {
-					allowedMoving[y][x] = 1;
-				}
-				// Still not found active Figure! Marking this field with 0 in
-				// Array!
-				else {
-					allowedMoving[y][x] = 0;
-				}
-			}
-		}
-		// END of finding current figure
-
-		// Algorithm for first movement of the Queen.
-		// Execute calculation of horizontal and vertical movement.
-		horizontalAndVerticalMoving();
-		diagonalMoving();
-		// END of Queen.
-	}
-
-	// Calculation algorithm for movement of the Bishop figure.
-	private void logicB() {
-		// Find the current Position of the active Figure on the Board.
-		for (int y = 0; y < 8; y++) {
-			for (int x = 0; x < 8; x++) {
-				// Found the active Figure! Marking this field with 1 in Array!
-				if (getActiveFigureX() == x && getActiveFigureY() == y) {
-					allowedMoving[y][x] = 1;
-				}
-				// Still not found active Figure! Marking this field with 0 in
-				// Array!
-				else {
-					allowedMoving[y][x] = 0;
-				}
-			}
-		}
-		// END of finding current figure
-
-		// Algorithm for first movement of the Queen.
-		// Execute calculation of horizontal and vertical movement.
-		diagonalMoving();
-		// END of Queen.
-	}
-
-	// Calculation algorithm for movement of the Knight figure.
-	private void logicKn() {
-		// Find the current Position of the active Figure on the Board.
-		for (int y = 0; y < 8; y++) {
-			for (int x = 0; x < 8; x++) {
-				// Found the active Figure! Marking this field with 4 in Array!
-				if (getActiveFigureX() == x && getActiveFigureY() == y) {
-					allowedMoving[y][x] = 4;
-				}
-				// Found Black figure! Marking it with 2 in Array!
-				else if (getForeignFigurePos(x, y) == 2) {
-					allowedMoving[y][x] = 2;
-				}
-				// Found White figure! Marking it with 1 in Array!
-				else if (getForeignFigurePos(x, y) == 1) {
-					allowedMoving[y][x] = 1;
-				}
-				// Still not found active Figure! Marking this field with 0 in
-				// Array!
-				else {
-					allowedMoving[y][x] = 0;
-				}
-			}
-		}
-		// END of finding current figure.
-		// Calculate movement of Knight.
-		int a = getActiveFigureY() - 3;
-		int b = getActiveFigureX() - 1;
-
-		// Going up!
-		// Position of foreign Figure!
-		if (a >= 0) {
-			try {
-				// Black
-				if (getField()[a][b] == 2) {
-					allowedMoving[a][b] = 2;
-					// Foreign figure is enemy. It can be kicked!
-					if (getField()[a][b] != getActivePlayer()) {
-						allowedMoving[a][b] = 3;
-					}
-					// Foreign figure is friend. It can't be kicked!
-					else {
-					}
-					// Nothing. Can move here!
-				}
-				// White
-				else if (getField()[a][b] == 1) {
-					allowedMoving[a][b] = 1;
-					// Foreign figure is enemy. It can be kicked!
-					if (getField()[a][b] != getActivePlayer()) {
-						allowedMoving[a][b] = 3;
-					}
-					// Foreign figure is friend. It can't be kicked!
-					else {
-					}
-				} else {
-					allowedMoving[a][b] = 3;
-				}
-			} catch (java.lang.ArrayIndexOutOfBoundsException e) {
-				System.err.println("Out of Bounds!");
-			}
-			b = getActiveFigureX() + 1;
-			// Black
-			if (getField()[a][b] == 2) {
-				allowedMoving[a][b] = 2;
-				// Foreign figure is enemy. It can be kicked!
-				if (getField()[a][b] != getActivePlayer()) {
-					allowedMoving[a][b] = 3;
-				}
-				// Foreign figure is friend. It can't be kicked!
-				else {
-
-				}
-			}
-			// White
-			else if (getField()[a][b] == 1) {
-				allowedMoving[a][b] = 1;
-				// Foreign figure is enemy. It can be kicked!
-				if (getField()[a][b] != getActivePlayer()) {
-					allowedMoving[a][b] = 3;
-				}
-				// Foreign figure is friend. It can't be kicked!
-				else {
-
-				}
-			}
-			// Nothing. Can move here!
-			else {
-				allowedMoving[a][b] = 3;
-			}
-		} else {
-		}
-		// END going up!
-
-		a = getActiveFigureY() + 3;
-		b = getActiveFigureX() - 1;
-
-		// Going down!
-		// Position of foreign Figure!
-		if (a <= 7) {
-			// Black
-			if (getField()[a][b] == 2) {
-				allowedMoving[a][b] = 2;
-				// Foreign figure is enemy. It can be kicked!
-				if (getField()[a][b] != getActivePlayer()) {
-					allowedMoving[a][b] = 3;
-				}
-				// Foreign figure is friend. It can't be kicked!
-				else {
-
-				}
-			}
-
-			// White
-			else if (getField()[a][b] == 1) {
-				allowedMoving[a][b] = 1;
-				// Foreign figure is enemy. It can be kicked!
-				if (getField()[a][b] != getActivePlayer()) {
-					allowedMoving[a][b] = 3;
-				}
-				// Foreign figure is friend. It can't be kicked!
-				else {
-
-				}
-			}
-			// Nothing. Can move here!
-			else {
-				allowedMoving[a][b] = 3;
-			}
-
-			b = getActiveFigureX() + 1;
-			// Black
-			if (getField()[a][b] == 2) {
-				allowedMoving[a][b] = 2;
-				// Foreign figure is enemy. It can be kicked!
-				if (getField()[a][b] != getActivePlayer()) {
-					allowedMoving[a][b] = 3;
-				}
-				// Foreign figure is friend. It can't be kicked!
-				else {
-
-				}
-			}
-			// White
-			else if (getField()[a][b] == 1) {
-				allowedMoving[a][b] = 1;
-				// Foreign figure is enemy. It can be kicked!
-				if (getField()[a][b] != getActivePlayer()) {
-					allowedMoving[a][b] = 3;
-				}
-				// Foreign figure is friend. It can't be kicked!
-				else {
-
-				}
-			}
-			// Nothing. Can move here!
-			else {
-				allowedMoving[a][b] = 3;
-			}
-		} else {
-		}
-		// END going down!
-
-		a = getActiveFigureY() + 1;
-		b = getActiveFigureX() - 3;
-
-		// Going left!
-		// Position of foreign Figure!
-		if (b >= 0) {
-			// Black
-			if (getField()[a][b] == 2) {
-				allowedMoving[a][b] = 2;
-				// Foreign figure is enemy. It can be kicked!
-				if (getField()[a][b] != getActivePlayer()) {
-					allowedMoving[a][b] = 3;
-				}
-				// Foreign figure is friend. It can't be kicked!
-				else {
-
-				}
-			}
-			// White
-			else if (getField()[a][b] == 1) {
-				allowedMoving[a][b] = 1;
-				// Foreign figure is enemy. It can be kicked!
-				if (getField()[a][b] != getActivePlayer()) {
-					allowedMoving[a][b] = 3;
-				}
-				// Foreign figure is friend. It can't be kicked!
-				else {
-
-				}
-			}
-			// Nothing. Can move here!
-			else {
-				allowedMoving[a][b] = 3;
-			}
-
-			a = getActiveFigureX() - 1;
-
-			// Black
-			if (getField()[a][b] == 2) {
-				allowedMoving[a][b] = 2;
-				// Foreign figure is enemy. It can be kicked!
-				if (getField()[a][b] != getActivePlayer()) {
-					allowedMoving[a][b] = 3;
-				}
-				// Foreign figure is friend. It can't be kicked!
-				else {
-				}
-			}
-			// White
-			else if (getField()[a][b] == 1) {
-				allowedMoving[a][b] = 1;
-				// Foreign figure is enemy. It can be kicked!
-				if (getField()[a][b] != getActivePlayer()) {
-					allowedMoving[a][b] = 3;
-				}
-				// Foreign figure is friend. It can't be kicked!
-				else {
-				}
-			}
-			// Nothing. Can move here!
-			else {
-				allowedMoving[a][b] = 3;
-			}
-		} else {
-		}
-		// END going right!
-
-		a = getActiveFigureY() + 1;
-		b = getActiveFigureX() + 3;
-
-		// Going left!
-		// Position of foreign Figure!
-		if (b <= 7) {
-			// Black
-			if (getField()[a][b] == 2) {
-				allowedMoving[a][b] = 2;
-				// Foreign figure is enemy. It can be kicked!
-				if (getField()[a][b] != getActivePlayer()) {
-					allowedMoving[a][b] = 3;
-				}
-				// Foreign figure is friend. It can't be kicked!
-				else {
-
-				}
-			}
-			// White
-			else if (getField()[a][b] == 1) {
-				allowedMoving[a][b] = 1;
-				// Foreign figure is enemy. It can be kicked!
-				if (getField()[a][b] != getActivePlayer()) {
-					allowedMoving[a][b] = 3;
-				}
-				// Foreign figure is friend. It can't be kicked!
-				else {
-
-				}
-			}
-			// Nothing. Can move here!
-			else {
-				allowedMoving[a][b] = 3;
-			}
-
-			a = getActiveFigureX() - 1;
-
-			// Black
-			if (getField()[a][b] == 2) {
-				allowedMoving[a][b] = 2;
-				// Foreign figure is enemy. It can be kicked!
-				if (getField()[a][b] != getActivePlayer()) {
-					allowedMoving[a][b] = 3;
-				}
-				// Foreign figure is friend. It can't be kicked!
-				else {
-
-				}
-			}
-			// White
-			else if (getField()[a][b] == 1) {
-				allowedMoving[a][b] = 1;
-				// Foreign figure is enemy. It can be kicked!
-				if (getField()[a][b] != getActivePlayer()) {
-					allowedMoving[a][b] = 3;
-				}
-				// Foreign figure is friend. It can't be kicked!
-				else {
-
-				}
-			}
-			// Nothing. Can move here!
-			else {
-				allowedMoving[a][b] = 3;
-			}
-		} else {
-		}
-		// END going right!
-
-		// END Calculate movement of Knight.
-	}
-
-	// Calculation algorithm for movement of the King figure.
-	private void logicK() {
-	}
-	// END of figure movement algorithms.
+	// END of searching algorithm.
 
 	// Horizontal and vertical moving
-	private void horizontalAndVerticalMoving() {
-		// Search for foreign figure in array field and mark movement in array
-		// allowedMovement.
-		// Search Y line!
-		for (int a = getActiveFigureY(); a <= 7; a++) {
-			// Position of active Figure!
-			if (getField()[a][getActiveFigureX()] == 4) {
-				allowedMoving[a][getActiveFigureX()] = 4;
+	// Search for foreign figures in array figureView and mark movement in
+	// array allowedMovement.
+	public void goRight(int b) {
+		for (int a = getFigureY(); a <= b; a++) {
+			// Position of this Figure!
+			if (getFigureView()[a][getFigureX()] == 4) {
+				setAllowedMoving(getFigureX(), a, 4);
 			}
 			// Position of Black Figure!
-			else if (getField()[a][getActiveFigureX()] == 2) {
-				allowedMoving[a][getActiveFigureX()] = 2;
+			else if (getFigureView()[a][getFigureX()] == 2) {
+				setAllowedMoving(getFigureX(), a, 2);
 				// Foreign figure is enemy. It can be kicked!
-				if (getField()[a][getActiveFigureX()] != getActivePlayer()) {
-					allowedMoving[a][getActiveFigureX()] = 3;
-					a = 8;
+				if (getFigureView()[a][getFigureX()] != getFigurePlayer()) {
+					setAllowedMoving(getFigureX(), a, 3);
 				} else {
-					a = 8;
 				}
+				a = 8;
 			}
 			// Position of White Figure
-			else if (getField()[a][getActiveFigureX()] == 1) {
-				allowedMoving[a][getActiveFigureX()] = 1;
+			else if (getFigureView()[a][getFigureX()] == 1) {
+				setAllowedMoving(getFigureX(), a, 1);
 				a = 8;
 				// Foreign figure is enemy. It can be kicked!
-				if (getField()[a][getActiveFigureX()] != getActivePlayer()) {
-					allowedMoving[a][getActiveFigureX()] = 3;
-					a = 8;
+				if (getFigureView()[a][getFigureX()] != getFigurePlayer()) {
+					setAllowedMoving(getFigureX(), a, 3);
 				} else {
-					a = 8;
 				}
+				a = 8;
 			}
 			// Nothing. Can move here!
 			else {
-				allowedMoving[a][getActiveFigureX()] = 3;
+				setAllowedMoving(getFigureX(), a, 3);
 			}
 		}
-
-		for (int a = getActiveFigureY(); a >= 0; a--) {
-			// Position of active Figure!
-			if (getField()[a][getActiveFigureX()] == 4) {
-				allowedMoving[a][getActiveFigureX()] = 4;
-			}
-			// Position of Black Figure!
-			else if (getField()[a][getActiveFigureX()] == 2) {
-				allowedMoving[a][getActiveFigureX()] = 2;
-				// Foreign figure is enemy. It can be kicked!
-				if (getField()[a][getActiveFigureX()] != getActivePlayer()) {
-					allowedMoving[a][getActiveFigureX()] = 3;
-					a = -1;
-				} else {
-					a = -1;
-				}
-			}
-			// Position of White Figure!
-			else if (getField()[a][getActiveFigureX()] == 1) {
-				allowedMoving[a][getActiveFigureX()] = 1;
-				if (getField()[a][getActiveFigureX()] != getActivePlayer()) {
-					allowedMoving[a][getActiveFigureX()] = 3;
-					a = -1;
-				} else {
-					a = -1;
-				}
-			}
-			// Nothing. Can move here!
-			else {
-				allowedMoving[a][getActiveFigureX()] = 3;
-			}
-		}
-		// END of Y search.
-		// Search X line!
-		for (int a = getActiveFigureX(); a <= 7; a++) {
-			// Position of active Figure!
-			if (getField()[getActiveFigureY()][a] == 4) {
-				allowedMoving[getActiveFigureY()][a] = 4;
-			}
-			// Position of Black Figure!
-			else if (getField()[getActiveFigureY()][a] == 2) {
-				allowedMoving[getActiveFigureY()][a] = 2;
-				// Foreign figure is enemy. It can be kicked!
-				if (getField()[getActiveFigureY()][a] != getActivePlayer()) {
-					allowedMoving[getActiveFigureY()][a] = 3;
-					a = 8;
-				} else {
-					a = 8;
-				}
-			}
-			// Position of White Figure!
-			else if (getField()[getActiveFigureY()][a] == 1) {
-				allowedMoving[getActiveFigureY()][a] = 1;
-				if (getField()[getActiveFigureY()][a] != getActivePlayer()) {
-					allowedMoving[getActiveFigureY()][a] = 3;
-					a = 8;
-				} else {
-					a = 8;
-				}
-			}
-			// Nothing. Can move here!
-			else {
-				allowedMoving[getActiveFigureY()][a] = 3;
-			}
-		}
-		for (int a = getActiveFigureX(); a >= 0; a--) {
-			// Position of active Figure!
-			if (getField()[getActiveFigureY()][a] == 4) {
-				allowedMoving[getActiveFigureY()][a] = 4;
-			}
-			// Position of Black Figure!
-			else if (getField()[getActiveFigureY()][a] == 2) {
-				allowedMoving[getActiveFigureY()][a] = 2;
-				// Foreign figure is enemy. It can be kicked!
-				if (getField()[getActiveFigureY()][a] != getActivePlayer()) {
-					allowedMoving[getActiveFigureY()][a] = 3;
-					a = -1;
-				} else {
-					a = -1;
-				}
-			}
-			// Position of White Figure!
-			else if (getField()[getActiveFigureY()][a] == 1) {
-				allowedMoving[getActiveFigureY()][a] = 1;
-				if (getField()[getActiveFigureY()][a] != getActivePlayer()) {
-					allowedMoving[getActiveFigureY()][a] = 3;
-					a = -1;
-				} else {
-					a = -1;
-				}
-			}
-			// Nothing. Can move here!
-			else {
-				allowedMoving[getActiveFigureY()][a] = 3;
-			}
-		}
-		// END of X search.
 	}
+	// END of left.
+
+	public void goLeft(int b) {
+		for (int a = getFigureY(); a >= b; a--) {
+			// Position of active Figure!
+			if (getFigureView()[a][getFigureX()] == 4) {
+				setAllowedMoving(getFigureX(), a, 4);
+			}
+			// Position of Black Figure!
+			else if (getFigureView()[a][getFigureX()] == 2) {
+				setAllowedMoving(getFigureX(), a, 2);
+				// Foreign figure is enemy. It can be kicked!
+				if (getFigureView()[a][getFigureX()] != getFigurePlayer()) {
+					setAllowedMoving(getFigureX(), a, 3);
+				} else {
+				}
+				a = -1;
+			}
+			// Position of White Figure!
+			else if (getFigureView()[a][getFigureX()] == 1) {
+				setAllowedMoving(getFigureX(), a, 1);
+				if (getFigureView()[a][getFigureX()] != getFigurePlayer()) {
+					setAllowedMoving(getFigureX(), a, 3);
+				} else {
+				}
+				a = -1;
+			}
+			// Nothing. Can move here!
+			else {
+				setAllowedMoving(getFigureX(), a, 3);
+			}
+		}
+	}
+	// END of right.
+
+	public void goDown(int b) {
+		for (int a = getFigureX(); a <= b; a++) {
+			// Position of active Figure!
+			if (getFigureView()[getFigureY()][a] == 4) {
+				setAllowedMoving(a, getFigureY(), 4);
+			}
+			// Position of Black Figure!
+			else if (getFigureView()[getFigureY()][a] == 2) {
+				setAllowedMoving(a, getFigureY(), 2);
+				// Foreign figure is enemy. It can be kicked!
+				if (getFigureView()[getFigureY()][a] != getFigurePlayer()) {
+					setAllowedMoving(a, getFigureY(), 3);
+				} else {
+				}
+				a = 8;
+			}
+			// Position of White Figure!
+			else if (getFigureView()[getFigureY()][a] == 1) {
+				setAllowedMoving(a, getFigureY(), 1);
+				if (getFigureView()[getFigureY()][a] != getFigurePlayer()) {
+					setAllowedMoving(a, getFigureY(), 3);
+				} else {
+				}
+				a = 8;
+			}
+			// Nothing. Can move here!
+			else {
+				setAllowedMoving(a, getFigureY(), 3);
+			}
+		}
+	}
+	// END of down.
+
+	public void goUp(int b) {
+		for (int a = getFigureX(); a >= b; a--) {
+			// Position of active Figure!
+			if (getFigureView()[getFigureY()][a] == 4) {
+				setAllowedMoving(a, getFigureY(), 4);
+			}
+			// Position of Black Figure!
+			else if (getFigureView()[getFigureY()][a] == 2) {
+				setAllowedMoving(a, getFigureY(), 2);
+				// Foreign figure is enemy. It can be kicked!
+				if (getFigureView()[getFigureY()][a] != getFigurePlayer()) {
+					setAllowedMoving(a, getFigureY(), 3);
+				} else {
+				}
+				a = -1;
+			}
+			// Position of White Figure!
+			else if (getFigureView()[getFigureY()][a] == 1) {
+				setAllowedMoving(a, getFigureY(), 1);
+				if (getFigureView()[getFigureY()][a] != getFigurePlayer()) {
+					setAllowedMoving(a, getFigureY(), 3);
+				} else {
+				}
+				a = -1;
+			}
+			// Nothing. Can move here!
+			else {
+				setAllowedMoving(a, getFigureY(), 3);
+			}
+		}
+	}
+	// END of up.
 	// END Horizontal and vertical moving
 
 	// Diagonal moving
+	@SuppressWarnings("unused")
 	private void diagonalMoving() {
-		// Search for foreign figure in array field and mark movement in array
+		// Search for foreign figure in array figureView and mark movement in
+		// array
 		// allowedMovement.
-		int a = getActiveFigureY() + 0;// Y
-		int b = getActiveFigureX() + 0;// X
-		// Search for down the board from active figure.
+		int a = getFigureY() + 0;// Y
+		int b = getFigureX() + 0;// X
+		// Search for down the allFigures from active figure.
 		while (a <= 7 && b <= 7) {
 			// Position of active Figure!
-			if (getField()[a][b] == 4) {
+			if (getFigureView()[a][b] == 4) {
 				allowedMoving[a][b] = 4;
 			}
 			// Position of Black Figure!
-			else if (getField()[a][b] == 2) {
+			else if (getFigureView()[a][b] == 2) {
 				allowedMoving[a][b] = 2;
 				// Foreign figure is enemy. It can be kicked!
-				if (getField()[a][b] != getActivePlayer()) {
+				if (getFigureView()[a][b] != getFigurePlayer()) {
 					allowedMoving[a][b] = 3;
 					a = 8;
 					b = 8;
@@ -814,10 +212,10 @@ public class Figure {
 				}
 			}
 			// Position of White Figure!
-			else if (getField()[a][b] == 1) {
+			else if (getFigureView()[a][b] == 1) {
 				allowedMoving[a][b] = 1;
 				// Foreign figure is enemy. It can be kicked!
-				if (getField()[a][b] != getActivePlayer()) {
+				if (getFigureView()[a][b] != getFigurePlayer()) {
 					allowedMoving[a][b] = 3;
 					a = 8;
 					b = 8;
@@ -833,20 +231,20 @@ public class Figure {
 			b++;
 		}
 		// END of positive search.
-		// Search up the board from active Figure!
-		a = getActiveFigureY() + 0;
-		b = getActiveFigureX() + 0;
-		// Search for down the board from active figure.
+		// Search up the allFigures from active Figure!
+		a = getFigureY() + 0;
+		b = getFigureX() + 0;
+		// Search for down the allFigures from active figure.
 		while (a >= 0 && b >= 0) {
 			// Position of active Figure!
-			if (getField()[a][b] == 4) {
+			if (getFigureView()[a][b] == 4) {
 				allowedMoving[a][b] = 4;
 			}
 			// Position of Black Figure!
-			else if (getField()[a][b] == 2) {
+			else if (getFigureView()[a][b] == 2) {
 				allowedMoving[a][b] = 2;
 				// Foreign figure is enemy. It can be kicked!
-				if (getField()[a][b] != getActivePlayer()) {
+				if (getFigureView()[a][b] != getFigurePlayer()) {
 					allowedMoving[a][b] = 3;
 					a = -8;
 					b = -8;
@@ -856,10 +254,10 @@ public class Figure {
 				}
 			}
 			// Position of White Figure!
-			else if (getField()[a][b] == 1) {
+			else if (getFigureView()[a][b] == 1) {
 				allowedMoving[a][b] = 1;
 				// Foreign figure is enemy. It can be kicked!
-				if (getField()[a][b] != getActivePlayer()) {
+				if (getFigureView()[a][b] != getFigurePlayer()) {
 					allowedMoving[a][b] = 3;
 					a = -8;
 					b = -8;
@@ -876,20 +274,20 @@ public class Figure {
 			b--;
 		}
 		// END of negative search.
-		// Search up the board from active Figure!
-		a = getActiveFigureY() + 0;
-		b = getActiveFigureX() + 0;
+		// Search up the allFigures from active Figure!
+		a = getFigureY() + 0;
+		b = getFigureX() + 0;
 		// Search.
 		while (a <= 7 && b >= 0) {
 			// Position of active Figure!
-			if (getField()[a][b] == 4) {
+			if (getFigureView()[a][b] == 4) {
 				allowedMoving[a][b] = 4;
 			}
 			// Position of Black Figure!
-			else if (getField()[a][b] == 2) {
+			else if (getFigureView()[a][b] == 2) {
 				allowedMoving[a][b] = 2;
 				// Foreign figure is enemy. It can be kicked!
-				if (getField()[a][b] != getActivePlayer()) {
+				if (getFigureView()[a][b] != getFigurePlayer()) {
 					allowedMoving[a][b] = 3;
 					a = 8;
 					b = -8;
@@ -899,10 +297,10 @@ public class Figure {
 				}
 			}
 			// Position of White Figure!
-			else if (getField()[a][b] == 1) {
+			else if (getFigureView()[a][b] == 1) {
 				allowedMoving[a][b] = 1;
 				// Foreign figure is enemy. It can be kicked!
-				if (getField()[a][b] != getActivePlayer()) {
+				if (getFigureView()[a][b] != getFigurePlayer()) {
 					allowedMoving[a][b] = 3;
 					a = 8;
 					b = -8;
@@ -918,20 +316,20 @@ public class Figure {
 			a++;
 			b--;
 		}
-		// Search up the board from active Figure!
-		a = getActiveFigureY() + 0;
-		b = getActiveFigureX() + 0;
-		// Search for down the board from active figure.
+		// Search up the allFigures from active Figure!
+		a = getFigureY() + 0;
+		b = getFigureX() + 0;
+		// Search for down the allFigures from active figure.
 		while (a >= 0 && b <= 7) {
 			// Position of active Figure!
-			if (getField()[a][b] == 4) {
+			if (getFigureView()[a][b] == 4) {
 				allowedMoving[a][b] = 4;
 			}
 			// Position of Black Figure!
-			else if (getField()[a][b] == 2) {
+			else if (getFigureView()[a][b] == 2) {
 				allowedMoving[a][b] = 2;
 				// Foreign figure is enemy. It can be kicked!
-				if (getField()[a][b] != getActivePlayer()) {
+				if (getFigureView()[a][b] != getFigurePlayer()) {
 					allowedMoving[a][b] = 3;
 					a = -8;
 					b = 8;
@@ -942,10 +340,10 @@ public class Figure {
 			}
 
 			// Position of White Figure!
-			else if (getField()[a][b] == 1) {
+			else if (getFigureView()[a][b] == 1) {
 				allowedMoving[a][b] = 1;
 				// Foreign figure is enemy. It can be kicked!
-				if (getField()[a][b] != getActivePlayer()) {
+				if (getFigureView()[a][b] != getFigurePlayer()) {
 					allowedMoving[a][b] = 3;
 					a = -8;
 					b = 8;
@@ -966,73 +364,60 @@ public class Figure {
 	// END Diagonal moving
 
 	// Getter and Setter methods.
-	// TODO alter or remove unused, old or changed attributes!
-	public int getActivePlayer() {
-		return activePlayer;
+	public int getFigurePlayer() {
+		return figurePlayer;
 	}
 
-	public void setActivePlayer(int activePlayer) {
-		this.activePlayer = activePlayer;
+	public void setFigurePlayer(int figurePlayer) {
+		this.figurePlayer = figurePlayer;
 	}
 
-	public String getActiveFigure() {
-		return activeFigure;
+	public int getFigureX() {
+		return figureX;
 	}
 
-	public void setActiveFigure(String activeFigure) {
-		this.activeFigure = activeFigure;
+	public void setFigureX(int figureX) {
+		this.figureX = figureX;
 	}
 
-	public int getActiveFigureX() {
-		return activeFigureX;
+	public int getFigureY() {
+		return figureY;
 	}
 
-	public void setActiveFigureX(int activeFigureX) {
-		this.activeFigureX = activeFigureX;
+	public void setFigureY(int figureY) {
+		this.figureY = figureY;
 	}
 
-	public int getActiveFigureY() {
-		return activeFigureY;
+	public boolean isFigureMoved() {
+		return figureMoved;
 	}
 
-	public void setActiveFigureY(int activeFigureY) {
-		this.activeFigureY = activeFigureY;
-	}
-
-	public int getForeignFigurePos(int x, int y) {
-		return getBoard()[x][y];
-	}
-
-	public boolean isAlreadyMoved() {
-		return alreadyMoved;
-	}
-
-	public void setAlreadyMoved(boolean alreadyMoved) {
-		this.alreadyMoved = alreadyMoved;
+	public void setFigureMoved(boolean figureMoved) {
+		this.figureMoved = figureMoved;
 	}
 
 	public int[][] getAllowedMoving() {
-		return field;
+		return allowedMoving;
 	}
 
-	public void setAllowedMoving(int allowedMoving[][]) {
-		this.field = allowedMoving;
+	public void setAllowedMoving(int x, int y, int v) {
+		this.allowedMoving[y][x] = v;
 	}
 
-	public int[][] getField() {
-		return field;
+	public int[][] getFigureView() {
+		return figureView;
 	}
 
-	public void setField(int[][] field) {
-		this.field = field;
+	public void setFigureView(int x, int y, int v) {
+		this.figureView[y][x] = v;
 	}
 
-	public int[][] getBoard() {
-		return board;
+	public int[][] getAllFigures() {
+		return allFigures;
 	}
 
-	public void setBoard(int board[][]) {
-		this.board = board;
+	public void setAllFigures(int board[][]) {
+		this.allFigures = board;
 	}
 	// END of Getter and Setter methods
 }
