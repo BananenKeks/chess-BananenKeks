@@ -45,6 +45,25 @@ public class Figure {
 	}
 	// END of searching algorithm.
 
+	// Resetting Array to remove old Data
+	public void clearMovement() {
+		for (int y = 0; y < 8; y++) {
+			for (int x = 0; x < 8; x++) {
+				// Found the active Figure! Marking this field with 4 in
+				// Array!
+				if (getFigureX() == x && getFigureY() == y) {
+					setAllowedMoving(x, y, 4);
+				}
+				// Still not found active Figure! Marking this field with 0
+				// in Array!
+				else {
+					setAllowedMoving(x, y, 0);
+				}
+			}
+		}
+	}
+	// END
+
 	// Search for foreign figures in array figureView and mark movement in
 	// array allowedMovement.
 	// Horizontal and vertical moving
@@ -185,7 +204,7 @@ public class Figure {
 		}
 	}
 	// END of left.
-	
+
 	// Diagonal moving
 	public void goDownRight(int c) {
 		c = getFigureY() + c;
@@ -227,7 +246,7 @@ public class Figure {
 			b++;
 		}
 	}
-	//END of down right
+	// END of down right
 
 	public void goUpLeft(int c) {
 		c = getFigureY() - c;
@@ -269,7 +288,7 @@ public class Figure {
 			b--;
 		}
 	}
-	//END of up left
+	// END of up left
 
 	public void goDownLeft(int c, int d) {
 		c = getFigureY() + c;
@@ -312,7 +331,7 @@ public class Figure {
 			b--;
 		}
 	}
-	//END of down left
+	// END of down left
 
 	public void goUpRight(int c, int d) {
 		c = getFigureY() - c;
@@ -356,8 +375,8 @@ public class Figure {
 			b++;
 		}
 	}
-	//END of up right
-	
+	// END of up right
+
 	// Getter and Setter
 	// END of mixed search.
 
@@ -383,6 +402,7 @@ public class Figure {
 	protected int getFigureY() {
 		return figureY;
 	}
+
 	protected void setFigureY(int figureY) {
 		this.figureY = figureY;
 	}

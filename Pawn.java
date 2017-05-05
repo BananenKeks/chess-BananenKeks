@@ -19,24 +19,9 @@ public class Pawn extends Figure {
 	// Calculation algorithm for movement of the Pawn figure.
 	public void logicP() {
 		// TODO Still need some logic for reaching the enemies end
-
-		// Resetting Array to remove old Data
-		for (int y = 0; y < 8; y++) {
-			for (int x = 0; x < 8; x++) {
-				// Found the active Figure! Marking this field with 4 in
-				// Array!
-				if (getFigureX() == x && getFigureY() == y) {
-					setAllowedMoving(x,y,4);
-				}
-				// Still not found active Figure! Marking this field with 0
-				// in Array!
-				else {
-					setAllowedMoving(x,y,0);
-				}
-			}
-		}
-		// 
-
+		
+		clearMovement();
+		
 		// Algorithm for first movement of the Pawn.
 		// Was the figure moved?
 		// Who is the active Player?
