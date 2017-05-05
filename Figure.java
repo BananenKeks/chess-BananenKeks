@@ -20,8 +20,7 @@ public class Figure {
 	// END of constructor.
 
 	// Searching algorithm. Fills calculation into arrays. Searches for figures
-	// in
-	// allFigures!
+	// in allFigures!
 	public void findFiguresOnBoard() {
 		for (int y = 0; y < 8; y++) {
 			for (int x = 0; x < 8; x++) {
@@ -46,10 +45,11 @@ public class Figure {
 	}
 	// END of searching algorithm.
 
-	// Horizontal and vertical moving
 	// Search for foreign figures in array figureView and mark movement in
 	// array allowedMovement.
-	public void goRight(int b) {
+	// Horizontal and vertical moving
+	public void goDown(int b) {
+		b = getFigureY() + b;
 		for (int a = getFigureY(); a <= b; a++) {
 			// Position of this Figure!
 			if (getFigureView()[a][getFigureX()] == 4) {
@@ -82,9 +82,10 @@ public class Figure {
 			}
 		}
 	}
-	// END of left.
+	// END of down.
 
-	public void goLeft(int b) {
+	public void goUp(int b) {
+		b = getFigureY() - b;
 		for (int a = getFigureY(); a >= b; a--) {
 			// Position of active Figure!
 			if (getFigureView()[a][getFigureX()] == 4) {
@@ -115,9 +116,10 @@ public class Figure {
 			}
 		}
 	}
-	// END of right.
+	// END of up.
 
-	public void goDown(int b) {
+	public void goRight(int b) {
+		b = getFigureX() + b;
 		for (int a = getFigureX(); a <= b; a++) {
 			// Position of active Figure!
 			if (getFigureView()[getFigureY()][a] == 4) {
@@ -148,9 +150,10 @@ public class Figure {
 			}
 		}
 	}
-	// END of down.
+	// END of right.
 
-	public void goUp(int b) {
+	public void goLeft(int b) {
+		b = getFigureX() - b;
 		for (int a = getFigureX(); a >= b; a--) {
 			// Position of active Figure!
 			if (getFigureView()[getFigureY()][a] == 4) {
@@ -181,244 +184,241 @@ public class Figure {
 			}
 		}
 	}
-	// END of up.
-	// END Horizontal and vertical moving
-
+	// END of left.
+	
 	// Diagonal moving
-	@SuppressWarnings("unused")
-	private void diagonalMoving() {
-		// Search for foreign figure in array figureView and mark movement in
-		// array
-		// allowedMovement.
+	public void goDownRight(int c) {
+		c = getFigureY() + c;
 		int a = getFigureY() + 0;// Y
 		int b = getFigureX() + 0;// X
 		// Search for down the allFigures from active figure.
-		while (a <= 7 && b <= 7) {
+		while (a <= c && b <= c) {
 			// Position of active Figure!
 			if (getFigureView()[a][b] == 4) {
-				allowedMoving[a][b] = 4;
+				setAllowedMoving(a, b, 4);
 			}
 			// Position of Black Figure!
 			else if (getFigureView()[a][b] == 2) {
-				allowedMoving[a][b] = 2;
+				setAllowedMoving(a, b, 2);
 				// Foreign figure is enemy. It can be kicked!
 				if (getFigureView()[a][b] != getFigurePlayer()) {
-					allowedMoving[a][b] = 3;
-					a = 8;
-					b = 8;
+					setAllowedMoving(a, b, 3);
 				} else {
-					a = 8;
-					b = 8;
 				}
+				a = c + 1;
+				b = c + 1;
+
 			}
 			// Position of White Figure!
 			else if (getFigureView()[a][b] == 1) {
-				allowedMoving[a][b] = 1;
+				setAllowedMoving(a, b, 1);
 				// Foreign figure is enemy. It can be kicked!
 				if (getFigureView()[a][b] != getFigurePlayer()) {
-					allowedMoving[a][b] = 3;
-					a = 8;
-					b = 8;
+					setAllowedMoving(a, b, 3);
+
 				} else {
-					a = 8;
-					b = 8;
 				}
+
 				// Nothing. Can move here!
 			} else {
-				allowedMoving[a][b] = 3;
+				setAllowedMoving(a, b, 3);
 			}
 			a++;
 			b++;
 		}
-		// END of positive search.
-		// Search up the allFigures from active Figure!
-		a = getFigureY() + 0;
-		b = getFigureX() + 0;
+	}
+	//END of down right
+
+	public void goUpLeft(int c) {
+		c = getFigureY() - c;
+		int a = getFigureY() + 0;
+		int b = getFigureX() + 0;
 		// Search for down the allFigures from active figure.
-		while (a >= 0 && b >= 0) {
+		while (a >= c && b >= c) {
 			// Position of active Figure!
 			if (getFigureView()[a][b] == 4) {
-				allowedMoving[a][b] = 4;
+				setAllowedMoving(a, b, 4);
 			}
 			// Position of Black Figure!
 			else if (getFigureView()[a][b] == 2) {
-				allowedMoving[a][b] = 2;
+				setAllowedMoving(a, b, 2);
 				// Foreign figure is enemy. It can be kicked!
 				if (getFigureView()[a][b] != getFigurePlayer()) {
-					allowedMoving[a][b] = 3;
-					a = -8;
-					b = -8;
+					setAllowedMoving(a, b, 3);
 				} else {
-					a = -8;
-					b = -8;
 				}
+				a = c - 1;
+				b = c - 1;
 			}
 			// Position of White Figure!
 			else if (getFigureView()[a][b] == 1) {
-				allowedMoving[a][b] = 1;
+				setAllowedMoving(a, b, 1);
 				// Foreign figure is enemy. It can be kicked!
 				if (getFigureView()[a][b] != getFigurePlayer()) {
-					allowedMoving[a][b] = 3;
-					a = -8;
-					b = -8;
+					setAllowedMoving(a, b, 3);
 				} else {
-					a = -8;
-					b = -8;
 				}
+				a = c - 1;
+				b = c - 1;
 			}
 			// Nothing. Can move here!
 			else {
-				allowedMoving[a][b] = 3;
+				setAllowedMoving(a, b, 3);
 			}
 			a--;
 			b--;
 		}
-		// END of negative search.
-		// Search up the allFigures from active Figure!
-		a = getFigureY() + 0;
-		b = getFigureX() + 0;
+	}
+	//END of up left
+
+	public void goDownLeft(int c, int d) {
+		c = getFigureY() + c;
+		d = getFigureX() - d;
+		int a = getFigureY() + 0;
+		int b = getFigureX() + 0;
 		// Search.
-		while (a <= 7 && b >= 0) {
+		while (a <= c && b >= d) {
 			// Position of active Figure!
 			if (getFigureView()[a][b] == 4) {
-				allowedMoving[a][b] = 4;
+				setAllowedMoving(a, b, 4);
 			}
 			// Position of Black Figure!
 			else if (getFigureView()[a][b] == 2) {
-				allowedMoving[a][b] = 2;
+				setAllowedMoving(a, b, 2);
 				// Foreign figure is enemy. It can be kicked!
 				if (getFigureView()[a][b] != getFigurePlayer()) {
-					allowedMoving[a][b] = 3;
-					a = 8;
-					b = -8;
+					setAllowedMoving(a, b, 3);
 				} else {
-					a = 8;
-					b = -8;
 				}
+				a = c + 1;
+				b = d - 1;
 			}
 			// Position of White Figure!
 			else if (getFigureView()[a][b] == 1) {
-				allowedMoving[a][b] = 1;
+				setAllowedMoving(a, b, 1);
 				// Foreign figure is enemy. It can be kicked!
 				if (getFigureView()[a][b] != getFigurePlayer()) {
-					allowedMoving[a][b] = 3;
-					a = 8;
-					b = -8;
+					setAllowedMoving(a, b, 3);
 				} else {
-					a = 8;
-					b = -8;
 				}
+				a = c + 1;
+				b = d - 1;
 			}
 			// Nothing. Can move here!
 			else {
-				allowedMoving[a][b] = 3;
+				setAllowedMoving(a, b, 3);
 			}
 			a++;
 			b--;
 		}
-		// Search up the allFigures from active Figure!
-		a = getFigureY() + 0;
-		b = getFigureX() + 0;
+	}
+	//END of down left
+
+	public void goUpRight(int c, int d) {
+		c = getFigureY() - c;
+		d = getFigureX() + d;
+		int a = getFigureY() + 0;
+		int b = getFigureX() + 0;
 		// Search for down the allFigures from active figure.
-		while (a >= 0 && b <= 7) {
+		while (a >= c && b <= d) {
 			// Position of active Figure!
 			if (getFigureView()[a][b] == 4) {
-				allowedMoving[a][b] = 4;
+				setAllowedMoving(a, b, 4);
 			}
 			// Position of Black Figure!
 			else if (getFigureView()[a][b] == 2) {
-				allowedMoving[a][b] = 2;
+				setAllowedMoving(a, b, 2);
 				// Foreign figure is enemy. It can be kicked!
 				if (getFigureView()[a][b] != getFigurePlayer()) {
-					allowedMoving[a][b] = 3;
-					a = -8;
-					b = 8;
+					setAllowedMoving(a, b, 3);
 				} else {
-					a = -8;
-					b = 8;
 				}
+				a = c - 1;
+				b = d + 1;
 			}
 
 			// Position of White Figure!
 			else if (getFigureView()[a][b] == 1) {
-				allowedMoving[a][b] = 1;
+				setAllowedMoving(a, b, 1);
 				// Foreign figure is enemy. It can be kicked!
 				if (getFigureView()[a][b] != getFigurePlayer()) {
-					allowedMoving[a][b] = 3;
-					a = -8;
-					b = 8;
+					setAllowedMoving(a, b, 3);
 				} else {
-					a = -8;
-					b = 8;
 				}
+				a = c - 1;
+				b = d + 1;
 			}
 			// Nothing. Can move here!
 			else {
-				allowedMoving[a][b] = 3;
+				setAllowedMoving(a, b, 3);
 			}
 			a--;
 			b++;
 		}
-		// END of mixed search.
 	}
+	//END of up right
+	
+	// Getter and Setter
+	// END of mixed search.
+
 	// END Diagonal moving
 
 	// Getter and Setter methods.
-	public int getFigurePlayer() {
+	protected int getFigurePlayer() {
 		return figurePlayer;
 	}
 
-	public void setFigurePlayer(int figurePlayer) {
+	protected void setFigurePlayer(int figurePlayer) {
 		this.figurePlayer = figurePlayer;
 	}
 
-	public int getFigureX() {
+	protected int getFigureX() {
 		return figureX;
 	}
 
-	public void setFigureX(int figureX) {
+	protected void setFigureX(int figureX) {
 		this.figureX = figureX;
 	}
 
-	public int getFigureY() {
+	protected int getFigureY() {
 		return figureY;
 	}
-
-	public void setFigureY(int figureY) {
+	protected void setFigureY(int figureY) {
 		this.figureY = figureY;
 	}
 
-	public boolean isFigureMoved() {
+	protected boolean isFigureMoved() {
 		return figureMoved;
 	}
 
-	public void setFigureMoved(boolean figureMoved) {
+	protected void setFigureMoved(boolean figureMoved) {
 		this.figureMoved = figureMoved;
 	}
 
-	public int[][] getAllowedMoving() {
+	protected int[][] getAllowedMoving() {
 		return allowedMoving;
 	}
 
-	public void setAllowedMoving(int x, int y, int v) {
+	protected void setAllowedMoving(int x, int y, int v) {
 		this.allowedMoving[y][x] = v;
 	}
 
-	public int[][] getFigureView() {
+	protected int[][] getFigureView() {
 		return figureView;
 	}
 
-	public void setFigureView(int x, int y, int v) {
+	protected void setFigureView(int x, int y, int v) {
 		this.figureView[y][x] = v;
 	}
 
-	public int[][] getAllFigures() {
+	protected int[][] getAllFigures() {
 		return allFigures;
 	}
 
-	public void setAllFigures(int board[][]) {
+	protected void setAllFigures(int board[][]) {
 		this.allFigures = board;
 	}
+	// END Getter and Setter
 	// END of Getter and Setter methods
 }
 // END of class
