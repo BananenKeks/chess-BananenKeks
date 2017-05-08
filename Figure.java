@@ -1,7 +1,7 @@
-package figs;
+package figure;
 
 //This class keeps general attributes and methods for figures
-public class Figure {
+class Figure {
 
 	// Attributes for calculating figure movement.
 	private int figurePlayer = 0;
@@ -67,7 +67,7 @@ public class Figure {
 	// Search for foreign figures in array figureView and mark movement in
 	// array allowedMovement.
 	// Horizontal and vertical moving
-	public void goDown(int b) {
+	public void goDown(int b, boolean kick) {
 		b = getFigureY() + b;
 		for (int a = getFigureY(); a <= b; a++) {
 			// Position of this Figure!
@@ -78,7 +78,7 @@ public class Figure {
 			else if (getFigureView()[a][getFigureX()] == 2) {
 				setAllowedMoving(getFigureX(), a, 2);
 				// Foreign figure is enemy. It can be kicked!
-				if (getFigureView()[a][getFigureX()] != getFigurePlayer()) {
+				if (getFigureView()[a][getFigureX()] != getFigurePlayer() && kick == true) {
 					setAllowedMoving(getFigureX(), a, 3);
 				} else {
 				}
@@ -89,7 +89,7 @@ public class Figure {
 				setAllowedMoving(getFigureX(), a, 1);
 				a = 8;
 				// Foreign figure is enemy. It can be kicked!
-				if (getFigureView()[a][getFigureX()] != getFigurePlayer()) {
+				if (getFigureView()[a][getFigureX()] != getFigurePlayer() && kick == true) {
 					setAllowedMoving(getFigureX(), a, 3);
 				} else {
 				}
@@ -103,7 +103,7 @@ public class Figure {
 	}
 	// END of down.
 
-	public void goUp(int b) {
+	public void goUp(int b, boolean kick) {
 		b = getFigureY() - b;
 		for (int a = getFigureY(); a >= b; a--) {
 			// Position of active Figure!
@@ -114,7 +114,7 @@ public class Figure {
 			else if (getFigureView()[a][getFigureX()] == 2) {
 				setAllowedMoving(getFigureX(), a, 2);
 				// Foreign figure is enemy. It can be kicked!
-				if (getFigureView()[a][getFigureX()] != getFigurePlayer()) {
+				if (getFigureView()[a][getFigureX()] != getFigurePlayer() && kick == true) {
 					setAllowedMoving(getFigureX(), a, 3);
 				} else {
 				}
@@ -123,7 +123,7 @@ public class Figure {
 			// Position of White Figure!
 			else if (getFigureView()[a][getFigureX()] == 1) {
 				setAllowedMoving(getFigureX(), a, 1);
-				if (getFigureView()[a][getFigureX()] != getFigurePlayer()) {
+				if (getFigureView()[a][getFigureX()] != getFigurePlayer() && kick == true) {
 					setAllowedMoving(getFigureX(), a, 3);
 				} else {
 				}
@@ -137,7 +137,7 @@ public class Figure {
 	}
 	// END of up.
 
-	public void goRight(int b) {
+	public void goRight(int b, boolean kick) {
 		b = getFigureX() + b;
 		for (int a = getFigureX(); a <= b; a++) {
 			// Position of active Figure!
@@ -148,7 +148,7 @@ public class Figure {
 			else if (getFigureView()[getFigureY()][a] == 2) {
 				setAllowedMoving(a, getFigureY(), 2);
 				// Foreign figure is enemy. It can be kicked!
-				if (getFigureView()[getFigureY()][a] != getFigurePlayer()) {
+				if (getFigureView()[getFigureY()][a] != getFigurePlayer() && kick == true) {
 					setAllowedMoving(a, getFigureY(), 3);
 				} else {
 				}
@@ -157,7 +157,7 @@ public class Figure {
 			// Position of White Figure!
 			else if (getFigureView()[getFigureY()][a] == 1) {
 				setAllowedMoving(a, getFigureY(), 1);
-				if (getFigureView()[getFigureY()][a] != getFigurePlayer()) {
+				if (getFigureView()[getFigureY()][a] != getFigurePlayer() && kick == true) {
 					setAllowedMoving(a, getFigureY(), 3);
 				} else {
 				}
@@ -171,7 +171,7 @@ public class Figure {
 	}
 	// END of right.
 
-	public void goLeft(int b) {
+	public void goLeft(int b, boolean kick) {
 		b = getFigureX() - b;
 		for (int a = getFigureX(); a >= b; a--) {
 			// Position of active Figure!
@@ -182,7 +182,7 @@ public class Figure {
 			else if (getFigureView()[getFigureY()][a] == 2) {
 				setAllowedMoving(a, getFigureY(), 2);
 				// Foreign figure is enemy. It can be kicked!
-				if (getFigureView()[getFigureY()][a] != getFigurePlayer()) {
+				if (getFigureView()[getFigureY()][a] != getFigurePlayer() && kick == true) {
 					setAllowedMoving(a, getFigureY(), 3);
 				} else {
 				}
@@ -191,7 +191,7 @@ public class Figure {
 			// Position of White Figure!
 			else if (getFigureView()[getFigureY()][a] == 1) {
 				setAllowedMoving(a, getFigureY(), 1);
-				if (getFigureView()[getFigureY()][a] != getFigurePlayer()) {
+				if (getFigureView()[getFigureY()][a] != getFigurePlayer() && kick == true) {
 					setAllowedMoving(a, getFigureY(), 3);
 				} else {
 				}
@@ -206,7 +206,7 @@ public class Figure {
 	// END of left.
 
 	// Diagonal moving
-	public void goDownRight(int c) {
+	public void goDownRight(int c, boolean kick) {
 		c = getFigureY() + c;
 		int a = getFigureY() + 0;// Y
 		int b = getFigureX() + 0;// X
@@ -220,7 +220,7 @@ public class Figure {
 			else if (getFigureView()[a][b] == 2) {
 				setAllowedMoving(a, b, 2);
 				// Foreign figure is enemy. It can be kicked!
-				if (getFigureView()[a][b] != getFigurePlayer()) {
+				if (getFigureView()[a][b] != getFigurePlayer() && kick == true) {
 					setAllowedMoving(a, b, 3);
 				} else {
 				}
@@ -232,7 +232,7 @@ public class Figure {
 			else if (getFigureView()[a][b] == 1) {
 				setAllowedMoving(a, b, 1);
 				// Foreign figure is enemy. It can be kicked!
-				if (getFigureView()[a][b] != getFigurePlayer()) {
+				if (getFigureView()[a][b] != getFigurePlayer() && kick == true) {
 					setAllowedMoving(a, b, 3);
 
 				} else {
@@ -248,7 +248,7 @@ public class Figure {
 	}
 	// END of down right
 
-	public void goUpLeft(int c) {
+	public void goUpLeft(int c, boolean kick) {
 		c = getFigureY() - c;
 		int a = getFigureY() + 0;
 		int b = getFigureX() + 0;
@@ -262,7 +262,7 @@ public class Figure {
 			else if (getFigureView()[a][b] == 2) {
 				setAllowedMoving(a, b, 2);
 				// Foreign figure is enemy. It can be kicked!
-				if (getFigureView()[a][b] != getFigurePlayer()) {
+				if (getFigureView()[a][b] != getFigurePlayer() && kick == true) {
 					setAllowedMoving(a, b, 3);
 				} else {
 				}
@@ -273,7 +273,7 @@ public class Figure {
 			else if (getFigureView()[a][b] == 1) {
 				setAllowedMoving(a, b, 1);
 				// Foreign figure is enemy. It can be kicked!
-				if (getFigureView()[a][b] != getFigurePlayer()) {
+				if (getFigureView()[a][b] != getFigurePlayer() && kick == true) {
 					setAllowedMoving(a, b, 3);
 				} else {
 				}
@@ -290,7 +290,7 @@ public class Figure {
 	}
 	// END of up left
 
-	public void goDownLeft(int c, int d) {
+	public void goDownLeft(int c, int d, boolean kick) {
 		c = getFigureY() + c;
 		d = getFigureX() - d;
 		int a = getFigureY() + 0;
@@ -305,7 +305,7 @@ public class Figure {
 			else if (getFigureView()[a][b] == 2) {
 				setAllowedMoving(a, b, 2);
 				// Foreign figure is enemy. It can be kicked!
-				if (getFigureView()[a][b] != getFigurePlayer()) {
+				if (getFigureView()[a][b] != getFigurePlayer() && kick == true) {
 					setAllowedMoving(a, b, 3);
 				} else {
 				}
@@ -316,7 +316,7 @@ public class Figure {
 			else if (getFigureView()[a][b] == 1) {
 				setAllowedMoving(a, b, 1);
 				// Foreign figure is enemy. It can be kicked!
-				if (getFigureView()[a][b] != getFigurePlayer()) {
+				if (getFigureView()[a][b] != getFigurePlayer() && kick == true) {
 					setAllowedMoving(a, b, 3);
 				} else {
 				}
@@ -333,7 +333,7 @@ public class Figure {
 	}
 	// END of down left
 
-	public void goUpRight(int c, int d) {
+	public void goUpRight(int c, int d, boolean kick) {
 		c = getFigureY() - c;
 		d = getFigureX() + d;
 		int a = getFigureY() + 0;
@@ -348,7 +348,7 @@ public class Figure {
 			else if (getFigureView()[a][b] == 2) {
 				setAllowedMoving(a, b, 2);
 				// Foreign figure is enemy. It can be kicked!
-				if (getFigureView()[a][b] != getFigurePlayer()) {
+				if (getFigureView()[a][b] != getFigurePlayer() && kick == true) {
 					setAllowedMoving(a, b, 3);
 				} else {
 				}
@@ -360,7 +360,7 @@ public class Figure {
 			else if (getFigureView()[a][b] == 1) {
 				setAllowedMoving(a, b, 1);
 				// Foreign figure is enemy. It can be kicked!
-				if (getFigureView()[a][b] != getFigurePlayer()) {
+				if (getFigureView()[a][b] != getFigurePlayer() && kick == true) {
 					setAllowedMoving(a, b, 3);
 				} else {
 				}
